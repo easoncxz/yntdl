@@ -12,8 +12,16 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.easoncxz.ntdl">
+		<level value="warn" />
+	</logger>
+	
+	<logger name="com.easoncxz.ntdl.Main">
 		<level value="debug" />
 	</logger>
+	
+<!-- 	<logger name="com.easoncxz.ntdl.Main">
+		<level value="error"></level>
+	</logger> -->
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
@@ -34,7 +42,7 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 	
