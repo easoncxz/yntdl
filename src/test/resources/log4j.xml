@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.easoncxz.ntdl">
+	<logger name="com.easoncxz.yntdl">
 		<level value="info" />
 	</logger>
 	

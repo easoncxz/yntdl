@@ -1,4 +1,4 @@
-package com.easoncxz.ntdl.aspects;
+package com.easoncxz.yntdl.aspects;
 
 public class AuthenticationChecker {
 

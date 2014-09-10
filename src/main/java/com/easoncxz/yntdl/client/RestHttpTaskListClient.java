@@ -1,4 +1,4 @@
-package com.easoncxz.ntdl.client;
+package com.easoncxz.yntdl.client;
 
 public class RestHttpTaskListClient {
 

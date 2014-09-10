@@ -11,15 +11,15 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.easoncxz.ntdl">
+	<logger name="com.easoncxz.yntdl">
 		<level value="warn" />
 	</logger>
 	
-	<logger name="com.easoncxz.ntdl.Main">
+	<logger name="com.easoncxz.yntdl.Main">
 		<level value="debug" />
 	</logger>
 	
-<!-- 	<logger name="com.easoncxz.ntdl.Main">
+<!-- 	<logger name="com.easoncxz.yntdl.Main">
 		<level value="error"></level>
 	</logger> -->
 	
