@@ -36,6 +36,14 @@ public class TaskList {
 			orphanRemoval = true)
 	private List<Task> tasks;
 
+	public boolean equals(TaskList other) {
+		if (this.id == null) {
+			return other.id == null;
+		} else {
+			return this.id.equals(other.id);
+		}
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -91,12 +91,16 @@ public class TestHibernateDao {
 		TaskList l = new TaskList();
 		l.setName("Some list");
 		u.addTaskList(l);
+		assertTrue(u.getTaskLists().size() == 1);
 		dao.save(u);
+		assertTrue(u.getTaskLists().size() == 1);
 		Long id = u.getId();
 		assertNotNull(id);
 
 		List<TaskList> lists = dao.getUserById(id).getTaskLists();
-		assertTrue(lists.size() == 1);
+		logger.info("The list of TaskLists is actually a: "
+				+ lists.getClass().getName());
+		assertEquals(1, lists.size());
 		assertEquals("Some list", lists.get(0).getName());
 	}
 

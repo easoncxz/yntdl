@@ -61,7 +61,7 @@ public class DaoHibernate implements Dao {
 
 	@Override
 	public User getUserById(Long id) {
-		String hql = "select distinct u from User as u where u.id = :id";
+		String hql = "select distinct u from User as u left join fetch u.taskLists as ls where u.id = :id";
 		return (User) sessionFactory.getCurrentSession().createQuery(hql)
 				.setParameter("id", id).uniqueResult();
 	}
@@ -82,7 +82,21 @@ public class DaoHibernate implements Dao {
 
 	@Override
 	public User save(User user) {
-		sessionFactory.getCurrentSession().save(user);
+		if (user != null) {
+			List<TaskList> lists = user.getTaskLists();
+			if (lists != null) {
+				for (TaskList l : lists) {
+					List<Task> tasks = l.getTasks();
+					if (tasks != null) {
+						for (Task t : l.getTasks()) {
+							save(t);
+						}
+					}
+					save(l);
+				}
+			}
+			sessionFactory.getCurrentSession().save(user);
+		}
 		return user;
 		// TODO does id populate correctly?
 	}
