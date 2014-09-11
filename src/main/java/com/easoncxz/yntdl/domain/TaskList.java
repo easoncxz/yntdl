@@ -18,7 +18,7 @@ public class TaskList {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private long id;
+	private Long id;
 
 	@Column
 	private String name;
@@ -29,7 +29,7 @@ public class TaskList {
 	@OneToMany
 	private Set<Task> tasks;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -45,7 +45,7 @@ public class TaskList {
 		return tasks;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
