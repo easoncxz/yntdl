@@ -7,7 +7,7 @@ import org.springframework.util.Assert;
 import com.easoncxz.yntdl.domain.User;
 import com.easoncxz.yntdl.persistence.Dao;
 
-public class TestDaoJdbc extends TestTemplate {
+public class TestDao extends TestTemplate {
 
 	public static void main(String[] args) {
 		Dao dao = TestTemplate.context.getBean("daoJdbcTemplate", Dao.class);
