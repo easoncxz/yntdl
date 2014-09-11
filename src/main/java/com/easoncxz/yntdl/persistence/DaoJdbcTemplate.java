@@ -1,8 +1,13 @@
 package com.easoncxz.yntdl.persistence;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-import javax.sql.DataSource;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.easoncxz.yntdl.domain.Task;
 import com.easoncxz.yntdl.domain.TaskList;
@@ -10,12 +15,29 @@ import com.easoncxz.yntdl.domain.User;
 
 public class DaoJdbcTemplate implements Dao {
 
-	public DaoJdbcTemplate(DataSource datasource) {
-		this.datasource = datasource;
+	public DaoJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+		this.template = namedParameterJdbcTemplate;
 	}
 
-	private DataSource datasource;
+	private NamedParameterJdbcTemplate template;
 
+	private static Map<String, Object> userUnmapper(User user) {
+		Map<String, Object> result = new TreeMap<String, Object>();
+		result.put("humanReadableName", user.getHumanReadableName());
+		return result;
+	}
+
+	private static final class UserMapper implements RowMapper<User> {
+
+		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+			User user = new User();
+			user.setId(rs.getLong("id"));
+			user.setHumanReadableName(rs.getString("humanReadableName"));
+			return user;
+		}
+
+	}
+	
 	@Override
 	public void deleteUser(User u) {
 		// TODO Auto-generated method stub
@@ -23,8 +45,8 @@ public class DaoJdbcTemplate implements Dao {
 
 	@Override
 	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select id, humanReadableName from User;";
+		return this.template.query(sql, new UserMapper());
 	}
 
 	@Override
@@ -35,7 +57,11 @@ public class DaoJdbcTemplate implements Dao {
 
 	@Override
 	public User saveUser(User user) {
-		// TODO Auto-generated method stub
+		if (user.getId() == null) {
+			// we've got a new user
+			String sql = "insert into User (humanReadableName) values (:humanReadableName);";
+			this.template.update(sql, userUnmapper(user));
+		}
 		return user;
 	}
 
