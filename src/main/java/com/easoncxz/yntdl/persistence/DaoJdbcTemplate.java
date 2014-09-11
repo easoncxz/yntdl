@@ -7,7 +7,7 @@ import com.easoncxz.yntdl.domain.Task;
 import com.easoncxz.yntdl.domain.TaskList;
 import com.easoncxz.yntdl.domain.User;
 
-public class DaoHibernate implements Dao {
+public class DaoJdbcTemplate implements Dao {
 
 	@Override
 	public void deleteUser(User u) {
