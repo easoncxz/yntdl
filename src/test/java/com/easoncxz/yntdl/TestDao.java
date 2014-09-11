@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
+import com.easoncxz.yntdl.domain.TaskList;
 import com.easoncxz.yntdl.domain.User;
 import com.easoncxz.yntdl.persistence.Dao;
 
@@ -19,6 +20,24 @@ public class TestDao extends TestTemplate {
 
 	public static void main(String[] args) {
 		Assert.notNull(dao);
+
+		{
+			// User u = dao.getUserById(22);
+			User u = new User();
+			u.setId(22L);
+			Assert.notNull(u);
+			// Assert.isTrue(u.getName().equals("test user"));
+			List<TaskList> lists = dao.getOwnedTaskLists(u);
+			Assert.isTrue(lists.size() == 2);
+			Assert.isTrue(lists.get(0).getName().equals("default list"));
+			Assert.isTrue(lists.get(1).getName().equals("other list"));
+			logger.warn("success");
+		}
+
+		boolean returnNow = true;
+		if (returnNow) {
+			return;
+		}
 
 		{
 			System.out.println();

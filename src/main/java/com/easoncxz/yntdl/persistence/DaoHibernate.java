@@ -21,21 +21,22 @@ public class DaoHibernate implements Dao {
 
 	@Override
 	public void deleteTask(Task task) {
-		// TODO Auto-generated method stub
+		sessionFactory.getCurrentSession().delete(task);
 	}
 
 	@Override
 	public void deleteTaskList(TaskList list) {
-		// TODO Auto-generated method stub
+		sessionFactory.getCurrentSession().delete(list);
 	}
 
 	@Override
-	public void deleteUser(User u) {
-		// TODO Auto-generated method stub
+	public void deleteUser(User user) {
+		sessionFactory.getCurrentSession().delete(user);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<User> getAllUsers() {
 		List<User> result = sessionFactory.getCurrentSession()
 				.createQuery("from User u").list();
@@ -43,9 +44,13 @@ public class DaoHibernate implements Dao {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
 	public List<TaskList> getOwnedTaskLists(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		String hql = "select distinct list from TaskList as list inner join list.owner where list.owner = :user";
+		List<TaskList> result = sessionFactory.getCurrentSession()
+				.createQuery(hql).setParameter("user", user).list();
+		return result;
 	}
 
 	@Override
