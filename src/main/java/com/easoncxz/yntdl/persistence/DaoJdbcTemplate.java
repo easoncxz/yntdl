@@ -1,13 +1,20 @@
 package com.easoncxz.yntdl.persistence;
 
 import java.util.List;
-import java.util.Set;
+
+import javax.sql.DataSource;
 
 import com.easoncxz.yntdl.domain.Task;
 import com.easoncxz.yntdl.domain.TaskList;
 import com.easoncxz.yntdl.domain.User;
 
 public class DaoJdbcTemplate implements Dao {
+
+	public DaoJdbcTemplate(DataSource datasource) {
+		this.datasource = datasource;
+	}
+
+	private DataSource datasource;
 
 	@Override
 	public void deleteUser(User u) {

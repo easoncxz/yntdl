@@ -4,7 +4,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean
 		id="mysqlDatasource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -20,6 +19,13 @@
 		<property
 			name="password"
 			value="1234" />
+	</bean>
+
+	<bean
+		id="DaoJdbcTemplate"
+		class="com.easoncxz.yntdl.persistence.DaoJdbcTemplate">
+		<constructor-arg ref="mysqlDatasource">
+		</constructor-arg>
 	</bean>
 
 </beans>
