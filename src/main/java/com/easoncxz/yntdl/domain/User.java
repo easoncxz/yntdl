@@ -1,40 +1,28 @@
 package com.easoncxz.yntdl.domain;
 
-import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table
-public class Task {
-
-	@ManyToOne
-	private TaskList containingList;
+public class User {
 
 	@Column
-	private String contents;
-
-	@Column
-	private Date dueDate;
+	private String humanReadableName;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private long id;
 
-	@Column
-	private Date lastModifiedDate;
-
-	@ManyToOne
-	private User owner;
-
-	@Column
-	private String title;
+	@OneToMany
+	private Set<TaskList> taskLists;
 
 }
