@@ -29,4 +29,36 @@ public class TaskList {
 	@OneToMany
 	private Set<Task> tasks;
 
+	public long getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public Set<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
+	}
+
 }

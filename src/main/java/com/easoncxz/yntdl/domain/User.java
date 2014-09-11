@@ -25,4 +25,28 @@ public class User {
 	@OneToMany
 	private Set<TaskList> taskLists;
 
+	public String getHumanReadableName() {
+		return humanReadableName;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public Set<TaskList> getTaskLists() {
+		return taskLists;
+	}
+
+	public void setHumanReadableName(String humanReadableName) {
+		this.humanReadableName = humanReadableName;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setTaskLists(Set<TaskList> taskLists) {
+		this.taskLists = taskLists;
+	}
+
 }

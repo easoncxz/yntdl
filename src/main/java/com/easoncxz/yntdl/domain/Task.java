@@ -37,4 +37,60 @@ public class Task {
 	@Column
 	private String title;
 
+	public TaskList getContainingList() {
+		return containingList;
+	}
+
+	public String getContents() {
+		return contents;
+	}
+
+	public Date getDueDate() {
+		return dueDate;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setContainingList(TaskList containingList) {
+		this.containingList = containingList;
+	}
+
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
+
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 }
