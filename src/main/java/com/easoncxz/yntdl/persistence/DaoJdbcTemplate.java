@@ -23,7 +23,8 @@ public class DaoJdbcTemplate implements Dao {
 
 	private static Map<String, Object> userUnmapper(User user) {
 		Map<String, Object> result = new TreeMap<String, Object>();
-		result.put("humanReadableName", user.getHumanReadableName());
+		result.put("HUMAN_READABLE_NAME", user.getName());
+		result.put("ID", user.getId());
 		return result;
 	}
 
@@ -31,13 +32,13 @@ public class DaoJdbcTemplate implements Dao {
 
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 			User user = new User();
-			user.setId(rs.getLong("id"));
-			user.setHumanReadableName(rs.getString("humanReadableName"));
+			user.setId(rs.getLong("ID"));
+			user.setName(rs.getString("HUMAN_READABLE_NAME"));
 			return user;
 		}
 
 	}
-	
+
 	@Override
 	public void deleteUser(User u) {
 		// TODO Auto-generated method stub
@@ -45,7 +46,7 @@ public class DaoJdbcTemplate implements Dao {
 
 	@Override
 	public List<User> getAllUsers() {
-		String sql = "select id, humanReadableName from User;";
+		String sql = "SELECT ID, HUMAN_READABLE_NAME FROM USER;";
 		return this.template.query(sql, new UserMapper());
 	}
 
@@ -59,9 +60,10 @@ public class DaoJdbcTemplate implements Dao {
 	public User saveUser(User user) {
 		if (user.getId() == null) {
 			// we've got a new user
-			String sql = "insert into User (humanReadableName) values (:humanReadableName);";
+			String sql = "INSERT INTO USER (HUMAN_READABLE_NAME) VALUES (:HUMAN_READABLE_NAME);";
 			this.template.update(sql, userUnmapper(user));
 		}
+		// TODO update auto-generated id into User object
 		return user;
 	}
 
