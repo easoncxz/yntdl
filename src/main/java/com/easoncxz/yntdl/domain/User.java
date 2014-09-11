@@ -1,7 +1,8 @@
 package com.easoncxz.yntdl.domain;
 
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,41 +12,45 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "USER")
 public class User {
 
-	@Column
-	private String humanReadableName;
+	@Column(name = "NAME")
+	private String name;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
+	@Column(name = "ID")
 	private Long id;
 
-	@OneToMany
-	private Set<TaskList> taskLists;
+	@OneToMany(
+			mappedBy = "owner",
+			targetEntity = TaskList.class,
+			cascade = CascadeType.ALL,
+			orphanRemoval = true)
+	private List<TaskList> taskLists;
 
-	public String getHumanReadableName() {
-		return humanReadableName;
+	public String getName() {
+		return name;
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public Set<TaskList> getTaskLists() {
+	public List<TaskList> getTaskLists() {
 		return taskLists;
 	}
 
-	public void setHumanReadableName(String humanReadableName) {
-		this.humanReadableName = humanReadableName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public void setTaskLists(Set<TaskList> taskLists) {
+	public void setTaskLists(List<TaskList> taskLists) {
 		this.taskLists = taskLists;
 	}
 

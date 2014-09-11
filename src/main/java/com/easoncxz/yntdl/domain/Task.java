@@ -7,34 +7,33 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "TASK")
 public class Task {
 
 	@ManyToOne
+	@JoinColumn(name = "TASK_LIST_ID")
 	private TaskList containingList;
 
-	@Column
+	@Column(name = "CONTENTS")
 	private String contents;
 
-	@Column
+	@Column(name = "DUE_DATE")
 	private Date dueDate;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
+	@Column(name = "ID")
 	private Long id;
 
-	@Column
+	@Column(name = "LAST_MODIFIED_DATE")
 	private Date lastModifiedDate;
 
-	@ManyToOne
-	private User owner;
-
-	@Column
+	@Column(name = "TITLE")
 	private String title;
 
 	public TaskList getContainingList() {
@@ -55,10 +54,6 @@ public class Task {
 
 	public Date getLastModifiedDate() {
 		return lastModifiedDate;
-	}
-
-	public User getOwner() {
-		return owner;
 	}
 
 	public String getTitle() {
@@ -83,10 +78,6 @@ public class Task {
 
 	public void setLastModifiedDate(Date lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public void setOwner(User owner) {
-		this.owner = owner;
 	}
 
 	public void setTitle(String title) {
