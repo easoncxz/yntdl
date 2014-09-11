@@ -54,4 +54,9 @@ public class User {
 		this.taskLists = taskLists;
 	}
 
+	@Override
+	public String toString() {
+		return this.getName();
+	}
+
 }
