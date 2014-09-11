@@ -13,21 +13,31 @@ public interface Dao {
 
 	void deleteUser(User u); // D
 
+	/**
+	 * @return list of users in order of id
+	 */
 	List<User> getAllUsers(); // R
 
+	/**
+	 * @param id
+	 * @return null if no such user exists
+	 */
 	User getUserById(long id); // R
 
 	/**
 	 * Both persists newly-created domain objects, and updates domain objects
 	 * that have already been persisted before. I.e., this provides both
 	 * "Create" and "Update" functionality in "CRUD".
+	 * 
+	 * @param user
+	 * @return the newly-saved user. (It'll have its id populated.)
 	 */
-	void saveUser(User user); // C, U
+	User saveUser(User user); // C, U
 
 	/**
 	 * Searches for user by their human-readable name
 	 *
-	 * @return a set of search results
+	 * @return a non-null list of search results, ordered by id
 	 */
 	List<User> searchForUserByName(); // R
 
@@ -37,14 +47,14 @@ public interface Dao {
 
 	/**
 	 * This API shouldn't be necessary, since the User domain object should
-	 * maintain a set of task lists as part of its state.
+	 * maintain a list of task lists as part of its state.
 	 *
 	 * @param user
-	 * @return
+	 * @return a non-null list of task lists, ordered by persisted ordering
 	 */
 	List<TaskList> getOwnedTaskLists(User user); // R
 
-	void saveTaskList(TaskList list); // C, U
+	void saveTaskList(TaskList taskList); // C, U
 
 	// ------
 
@@ -54,10 +64,10 @@ public interface Dao {
 	 * Similar to {@link #getOwnedTaskLists(User)}, this API shouldn't be
 	 * necessary.
 	 *
-	 * @param list
-	 * @return
+	 * @param taskList
+	 * @return a non-null list of tasks, ordered by persisted ordering
 	 */
-	List<Task> getTasksInList(TaskList list); // R
+	List<Task> getTasksInList(TaskList taskList); // R
 
 	void saveTask(Task task); // C, U
 

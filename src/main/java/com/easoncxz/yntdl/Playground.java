@@ -15,10 +15,12 @@ public class Playground {
 
 	public static void main(String[] args) {
 		Logger l = LoggerFactory.getLogger(Playground.class);
-		ApplicationContext context = new ClassPathXmlApplicationContext("client-context.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"client-context.xml");
 		Dao dao = context.getBean("DaoJdbcTemplate", Dao.class);
 		List<User> ul = dao.getAllUsers();
 		Assert.isNull(ul);
+		l.info("success");
 	}
 
 }

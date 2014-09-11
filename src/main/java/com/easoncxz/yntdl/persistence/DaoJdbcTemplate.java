@@ -34,8 +34,9 @@ public class DaoJdbcTemplate implements Dao {
 	}
 
 	@Override
-	public void saveUser(User user) {
+	public User saveUser(User user) {
 		// TODO Auto-generated method stub
+		return user;
 	}
 
 	@Override
