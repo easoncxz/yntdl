@@ -11,11 +11,11 @@ import com.easoncxz.yntdl.domain.User;
  */
 public interface Dao {
 
-	void deleteTask(Task task); // D
+	void delete(Task task); // D
 
-	void deleteTaskList(TaskList list); // D
+	void delete(TaskList list); // D
 
-	void deleteUser(User u); // D
+	void delete(User u); // D
 
 	/**
 	 * @return list of users in order of id
@@ -54,7 +54,7 @@ public interface Dao {
 	 * @param task
 	 * @return the newly-saved Task, with its id filled-in.
 	 */
-	Task saveTask(Task task); // C, U
+	Task save(Task task); // C, U
 
 	// ------
 
@@ -62,7 +62,7 @@ public interface Dao {
 	 * @param taskList
 	 * @return the newly-saved TaskList (with its id filled-in).
 	 */
-	TaskList saveTaskList(TaskList taskList); // C, U
+	TaskList save(TaskList taskList); // C, U
 
 	/**
 	 * Both persists newly-created domain objects, and updates domain objects
@@ -72,7 +72,7 @@ public interface Dao {
 	 * @param user
 	 * @return the newly-saved user. (It'll have its id populated.)
 	 */
-	User saveUser(User user); // C, U
+	User save(User user); // C, U
 
 	/**
 	 * Searches for user by their human-readable name
@@ -80,5 +80,11 @@ public interface Dao {
 	 * @return a non-null list of search results, ordered by id
 	 */
 	List<User> searchForUserByName(String name); // R
+
+	User udpate(User user);
+
+	Task update(Task task);
+
+	TaskList update(TaskList list);
 
 }

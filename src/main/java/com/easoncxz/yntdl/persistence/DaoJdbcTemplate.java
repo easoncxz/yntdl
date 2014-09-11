@@ -40,18 +40,21 @@ public class DaoJdbcTemplate implements Dao {
 	}
 
 	@Override
-	public void deleteTask(Task task) {
+	public void delete(Task task) {
 		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void deleteTaskList(TaskList list) {
+	public void delete(TaskList list) {
 		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void deleteUser(User u) {
+	public void delete(User u) {
 		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -79,19 +82,19 @@ public class DaoJdbcTemplate implements Dao {
 	}
 
 	@Override
-	public Task saveTask(Task task) {
+	public Task save(Task task) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public TaskList saveTaskList(TaskList list) {
+	public TaskList save(TaskList list) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public User saveUser(User user) {
+	public User save(User user) {
 		if (user.getId() == null) {
 			// we've got a new user
 			String sql = "INSERT INTO USER (HUMAN_READABLE_NAME) VALUES (:HUMAN_READABLE_NAME);";
@@ -103,6 +106,24 @@ public class DaoJdbcTemplate implements Dao {
 
 	@Override
 	public List<User> searchForUserByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User udpate(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Task update(Task task) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TaskList update(TaskList list) {
 		// TODO Auto-generated method stub
 		return null;
 	}

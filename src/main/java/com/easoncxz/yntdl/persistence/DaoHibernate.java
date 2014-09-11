@@ -19,17 +19,17 @@ public class DaoHibernate implements Dao {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public void deleteTask(Task task) {
+	public void delete(Task task) {
 		sessionFactory.getCurrentSession().delete(task);
 	}
 
 	@Override
-	public void deleteTaskList(TaskList list) {
+	public void delete(TaskList list) {
 		sessionFactory.getCurrentSession().delete(list);
 	}
 
 	@Override
-	public void deleteUser(User user) {
+	public void delete(User user) {
 		sessionFactory.getCurrentSession().delete(user);
 	}
 
@@ -67,22 +67,22 @@ public class DaoHibernate implements Dao {
 	}
 
 	@Override
-	public Task saveTask(Task task) {
-		sessionFactory.getCurrentSession().saveOrUpdate(task);
+	public Task save(Task task) {
+		sessionFactory.getCurrentSession().save(task);
 		return task;
 		// TODO does id populate correctly?
 	}
 
 	@Override
-	public TaskList saveTaskList(TaskList list) {
-		sessionFactory.getCurrentSession().saveOrUpdate(list);
+	public TaskList save(TaskList list) {
+		sessionFactory.getCurrentSession().save(list);
 		return list;
 		// TODO does id populate correctly?
 	}
 
 	@Override
-	public User saveUser(User user) {
-		sessionFactory.getCurrentSession().saveOrUpdate(user);
+	public User save(User user) {
+		sessionFactory.getCurrentSession().save(user);
 		return user;
 		// TODO does id populate correctly?
 	}
@@ -98,5 +98,23 @@ public class DaoHibernate implements Dao {
 	@Resource
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	@Override
+	public User udpate(User user) {
+		sessionFactory.getCurrentSession().save(user);
+		return user;
+	}
+
+	@Override
+	public Task update(Task task) {
+		sessionFactory.getCurrentSession().save(task);
+		return task;
+	}
+
+	@Override
+	public TaskList update(TaskList list) {
+		sessionFactory.getCurrentSession().save(list);
+		return list;
 	}
 }
