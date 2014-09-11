@@ -13,7 +13,7 @@ public class TestDaoJdbc extends TestTemplate {
 		Dao dao = TestTemplate.context.getBean("daoJdbcTemplate", Dao.class);
 		Assert.notNull(dao);
 
-		boolean flag = false;
+		boolean flag = true;
 		if (flag) {
 			User u = new User();
 			u.setHumanReadableName("John Doe");
