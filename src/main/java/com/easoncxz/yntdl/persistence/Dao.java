@@ -32,8 +32,6 @@ public interface Dao {
 	 */
 	List<TaskList> getOwnedTaskLists(User user); // R
 
-	// ------
-
 	/**
 	 * Similar to {@link #getOwnedTaskLists(User)}, this API shouldn't be
 	 * necessary.
@@ -81,7 +79,7 @@ public interface Dao {
 	 */
 	List<User> searchForUserByName(String name); // R
 
-	User udpate(User user);
+	User update(User user);
 
 	Task update(Task task);
 

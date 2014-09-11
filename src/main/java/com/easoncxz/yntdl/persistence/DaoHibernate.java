@@ -101,20 +101,20 @@ public class DaoHibernate implements Dao {
 	}
 
 	@Override
-	public User udpate(User user) {
-		sessionFactory.getCurrentSession().save(user);
+	public User update(User user) {
+		sessionFactory.getCurrentSession().update(user);
 		return user;
 	}
 
 	@Override
 	public Task update(Task task) {
-		sessionFactory.getCurrentSession().save(task);
+		sessionFactory.getCurrentSession().update(task);
 		return task;
 	}
 
 	@Override
 	public TaskList update(TaskList list) {
-		sessionFactory.getCurrentSession().save(list);
+		sessionFactory.getCurrentSession().update(list);
 		return list;
 	}
 }

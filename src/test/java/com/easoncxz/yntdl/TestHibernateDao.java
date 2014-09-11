@@ -1,9 +1,7 @@
 package com.easoncxz.yntdl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -31,13 +29,13 @@ public class TestHibernateDao {
 	public void setUp() throws Exception {
 		context = new ClassPathXmlApplicationContext("test-context.xml");
 		assertNotNull(context);
-	
+
 		dao = context.getBean("daoHibernate", Dao.class);
 		assertNotNull(dao);
-	
+
 		beforeTests = dao.getAllUsers();
 		logger.info(beforeTests.toString());
-	
+
 		for (User u : beforeTests) {
 			assertNotNull(u);
 			dao.delete(u);
@@ -46,14 +44,37 @@ public class TestHibernateDao {
 	}
 
 	@Test
-	public void test() {
-		assertEquals(0, dao.getAllUsers().size());
+	public void testCreateUser() {
 		User u = new User();
-		u.setName("Name from JUnit");
+		u.setName("Name Before");
+		assertNull(u.getId());
 		dao.save(u);
 		assertNotNull(u);
 		assertNotNull(u.getId());
-		assertEquals(1, dao.getAllUsers().size());
+	}
+
+	@Test
+	public void testUpdateUser() {
+		User u = new User();
+		u.setName("Name Before");
+		dao.save(u);
+
+		u.setName("Name Modded");
+		Long id = u.getId();
+		dao.update(u);
+		assertEquals(id, u.getId());
+		assertEquals("Name Modded", dao.getUserById(id).getName());
+	}
+	
+	@Test
+	public void testDeleteUser() {
+		User u = new User();
+		u.setName("Name Before");
+		dao.save(u);
+		Long id = u.getId();
+		assertNotNull(id);
+		dao.delete(u);
+		assertNull(dao.getUserById(id));
 	}
 
 	@After

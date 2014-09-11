@@ -111,7 +111,7 @@ public class DaoJdbcTemplate implements Dao {
 	}
 
 	@Override
-	public User udpate(User user) {
+	public User update(User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
