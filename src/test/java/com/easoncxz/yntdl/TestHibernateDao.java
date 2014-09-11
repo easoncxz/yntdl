@@ -1,7 +1,13 @@
 package com.easoncxz.yntdl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.After;
@@ -12,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.easoncxz.yntdl.domain.TaskList;
 import com.easoncxz.yntdl.domain.User;
 import com.easoncxz.yntdl.persistence.Dao;
 
@@ -65,7 +72,7 @@ public class TestHibernateDao {
 		assertEquals(id, u.getId());
 		assertEquals("Name Modded", dao.getUserById(id).getName());
 	}
-	
+
 	@Test
 	public void testDeleteUser() {
 		User u = new User();
@@ -75,6 +82,22 @@ public class TestHibernateDao {
 		assertNotNull(id);
 		dao.delete(u);
 		assertNull(dao.getUserById(id));
+	}
+
+	@Test
+	public void testAttachTaskListToUser() {
+		User u = new User();
+		u.setName("John");
+		TaskList l = new TaskList();
+		l.setName("Some list");
+		u.addTaskList(l);
+		dao.save(u);
+		Long id = u.getId();
+		assertNotNull(id);
+
+		List<TaskList> lists = dao.getUserById(id).getTaskLists();
+		assertTrue(lists.size() == 1);
+		assertEquals("Some list", lists.get(0).getName());
 	}
 
 	@After
