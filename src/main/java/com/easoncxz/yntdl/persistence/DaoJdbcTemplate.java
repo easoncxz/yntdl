@@ -15,19 +15,6 @@ import com.easoncxz.yntdl.domain.User;
 
 public class DaoJdbcTemplate implements Dao {
 
-	public DaoJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-		this.template = namedParameterJdbcTemplate;
-	}
-
-	private NamedParameterJdbcTemplate template;
-
-	private static Map<String, Object> userUnmapper(User user) {
-		Map<String, Object> result = new TreeMap<String, Object>();
-		result.put("HUMAN_READABLE_NAME", user.getName());
-		result.put("ID", user.getId());
-		return result;
-	}
-
 	private static final class UserMapper implements RowMapper<User> {
 
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -37,6 +24,29 @@ public class DaoJdbcTemplate implements Dao {
 			return user;
 		}
 
+	}
+
+	private static Map<String, Object> userUnmapper(User user) {
+		Map<String, Object> result = new TreeMap<String, Object>();
+		result.put("HUMAN_READABLE_NAME", user.getName());
+		result.put("ID", user.getId());
+		return result;
+	}
+
+	private NamedParameterJdbcTemplate template;
+
+	public DaoJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+		this.template = namedParameterJdbcTemplate;
+	}
+
+	@Override
+	public void deleteTask(Task task) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deleteTaskList(TaskList list) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -51,7 +61,31 @@ public class DaoJdbcTemplate implements Dao {
 	}
 
 	@Override
-	public User getUserById(long id) {
+	public List<TaskList> getOwnedTaskLists(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Task> getTasksInList(TaskList list) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User getUserById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Task saveTask(Task task) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TaskList saveTaskList(TaskList list) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -68,40 +102,8 @@ public class DaoJdbcTemplate implements Dao {
 	}
 
 	@Override
-	public List<User> searchForUserByName() {
+	public List<User> searchForUserByName(String name) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void deleteTaskList(TaskList list) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public List<TaskList> getOwnedTaskLists(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveTaskList(TaskList list) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void deleteTask(Task task) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public List<Task> getTasksInList(TaskList list) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveTask(Task task) {
-		// TODO Auto-generated method stub
 	}
 }

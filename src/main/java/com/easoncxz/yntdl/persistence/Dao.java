@@ -11,6 +11,10 @@ import com.easoncxz.yntdl.domain.User;
  */
 public interface Dao {
 
+	void deleteTask(Task task); // D
+
+	void deleteTaskList(TaskList list); // D
+
 	void deleteUser(User u); // D
 
 	/**
@@ -19,10 +23,46 @@ public interface Dao {
 	List<User> getAllUsers(); // R
 
 	/**
+	 * This API shouldn't be necessary, since the User domain object should
+	 * maintain a list of task lists as part of its state.
+	 *
+	 * @deprecated
+	 * @param user
+	 * @return a non-null list of task lists, ordered by persisted ordering
+	 */
+	List<TaskList> getOwnedTaskLists(User user); // R
+
+	// ------
+
+	/**
+	 * Similar to {@link #getOwnedTaskLists(User)}, this API shouldn't be
+	 * necessary.
+	 *
+	 * @deprecated
+	 * @param taskList
+	 * @return a non-null list of tasks, ordered by persisted ordering
+	 */
+	List<Task> getTasksInList(TaskList taskList); // R
+
+	/**
 	 * @param id
 	 * @return null if no such user exists
 	 */
-	User getUserById(long id); // R
+	User getUserById(Long id); // R
+
+	/**
+	 * @param task
+	 * @return the newly-saved Task, with its id filled-in.
+	 */
+	Task saveTask(Task task); // C, U
+
+	// ------
+
+	/**
+	 * @param taskList
+	 * @return the newly-saved TaskList (with its id filled-in).
+	 */
+	TaskList saveTaskList(TaskList taskList); // C, U
 
 	/**
 	 * Both persists newly-created domain objects, and updates domain objects
@@ -39,36 +79,6 @@ public interface Dao {
 	 *
 	 * @return a non-null list of search results, ordered by id
 	 */
-	List<User> searchForUserByName(); // R
-
-	// ------
-
-	void deleteTaskList(TaskList list); // D
-
-	/**
-	 * This API shouldn't be necessary, since the User domain object should
-	 * maintain a list of task lists as part of its state.
-	 *
-	 * @param user
-	 * @return a non-null list of task lists, ordered by persisted ordering
-	 */
-	List<TaskList> getOwnedTaskLists(User user); // R
-
-	void saveTaskList(TaskList taskList); // C, U
-
-	// ------
-
-	void deleteTask(Task task); // D
-
-	/**
-	 * Similar to {@link #getOwnedTaskLists(User)}, this API shouldn't be
-	 * necessary.
-	 *
-	 * @param taskList
-	 * @return a non-null list of tasks, ordered by persisted ordering
-	 */
-	List<Task> getTasksInList(TaskList taskList); // R
-
-	void saveTask(Task task); // C, U
+	List<User> searchForUserByName(String name); // R
 
 }

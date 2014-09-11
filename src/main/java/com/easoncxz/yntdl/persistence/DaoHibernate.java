@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.hibernate.classic.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,18 +33,19 @@ public class DaoHibernate implements Dao {
 		sessionFactory.getCurrentSession().delete(user);
 	}
 
-	@Override
 	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<User> getAllUsers() {
 		List<User> result = sessionFactory.getCurrentSession()
 				.createQuery("from User u").list();
 		return result;
 	}
 
-	@Override
+	@Deprecated
 	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<TaskList> getOwnedTaskLists(User user) {
 		String hql = "select distinct list from TaskList as list inner join list.owner where list.owner = :user";
 		List<TaskList> result = sessionFactory.getCurrentSession()
@@ -53,40 +53,46 @@ public class DaoHibernate implements Dao {
 		return result;
 	}
 
+	@Deprecated
 	@Override
 	public List<Task> getTasksInList(TaskList list) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public User getUserById(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getUserById(Long id) {
+		String hql = "select distinct u from User as u where u.id = :id";
+		return (User) sessionFactory.getCurrentSession().createQuery(hql)
+				.setParameter("id", id).uniqueResult();
 	}
 
 	@Override
-	public void saveTask(Task task) {
-		// TODO Auto-generated method stub
+	public Task saveTask(Task task) {
+		sessionFactory.getCurrentSession().saveOrUpdate(task);
+		return task;
+		// TODO does id populate correctly?
 	}
 
 	@Override
-	public void saveTaskList(TaskList list) {
-		// TODO Auto-generated method stub
+	public TaskList saveTaskList(TaskList list) {
+		sessionFactory.getCurrentSession().saveOrUpdate(list);
+		return list;
+		// TODO does id populate correctly?
 	}
 
 	@Override
 	public User saveUser(User user) {
-		// TODO Auto-generated method stub
-		Session s = sessionFactory.getCurrentSession();
-		s.saveOrUpdate(user);
+		sessionFactory.getCurrentSession().saveOrUpdate(user);
 		return user;
+		// TODO does id populate correctly?
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> searchForUserByName() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> searchForUserByName(String name) {
+		String hql = "from User u where u.name = :name";
+		return sessionFactory.getCurrentSession().createQuery(hql)
+				.setParameter("name", name).list();
 	}
 
 	@Resource

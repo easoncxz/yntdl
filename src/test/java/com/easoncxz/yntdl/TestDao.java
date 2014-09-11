@@ -1,13 +1,15 @@
 package com.easoncxz.yntdl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.util.Assert;
 
-import com.easoncxz.yntdl.domain.TaskList;
 import com.easoncxz.yntdl.domain.User;
 import com.easoncxz.yntdl.persistence.Dao;
 
@@ -20,24 +22,6 @@ public class TestDao extends TestTemplate {
 
 	public static void main(String[] args) {
 		Assert.notNull(dao);
-
-		{
-			// User u = dao.getUserById(22);
-			User u = new User();
-			u.setId(22L);
-			Assert.notNull(u);
-			// Assert.isTrue(u.getName().equals("test user"));
-			List<TaskList> lists = dao.getOwnedTaskLists(u);
-			Assert.isTrue(lists.size() == 2);
-			Assert.isTrue(lists.get(0).getName().equals("default list"));
-			Assert.isTrue(lists.get(1).getName().equals("other list"));
-			logger.warn("success");
-		}
-
-		boolean returnNow = true;
-		if (returnNow) {
-			return;
-		}
 
 		{
 			System.out.println();
@@ -78,6 +62,34 @@ public class TestDao extends TestTemplate {
 			}
 			Assert.isTrue(success);
 		}
+
+		{
+			System.out.println();
+			logger.warn("more careful testing");
+			List<User> users = dao.getAllUsers();
+			for (User u : users) {
+				dao.deleteUser(u);
+			}
+			Assert.isTrue(dao.getAllUsers().size() == 0);
+
+			NamedParameterJdbcTemplate template = context
+					.getBean(NamedParameterJdbcTemplate.class);
+			Assert.notNull(template);
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			String sql;
+			List<Map<String, Object>> result;
+
+			sql = "select * from task_list";
+			result = template.queryForList(sql, paramMap);
+			Assert.isTrue(result.isEmpty());
+
+			sql = "select * from task";
+			result = template.queryForList(sql, paramMap);
+			Assert.isTrue(result.isEmpty());
+		}
+
+		System.out.println();
+		logger.error("success");
 	}
 
 }
