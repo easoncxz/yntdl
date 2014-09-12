@@ -34,21 +34,21 @@ public class User {
 	private Set<TaskList> taskLists;
 
 	public void addTaskList(TaskList l) {
-		if (this.taskLists == null) {
-			this.taskLists = new HashSet<TaskList>();
-		}
-		this.taskLists.add(l);
 		if (l != null) {
+			if (this.taskLists == null) {
+				this.taskLists = new HashSet<TaskList>();
+			}
+			this.taskLists.add(l);
 			l.setOwner(this);
 		}
 	}
 
 	public void deleteTaskList(TaskList l) {
-		if (this.taskLists == null) {
-			return;
-		}
-		this.taskLists.remove(l);
 		if (l != null) {
+			if (this.taskLists == null) {
+				return;
+			}
+			this.taskLists.remove(l);
 			l.setOwner(null);
 		}
 	}

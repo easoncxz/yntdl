@@ -52,11 +52,11 @@ public class TaskList {
 	}
 
 	public void deleteTask(Task task) {
-		if (this.tasks == null) {
-			return;
-		}
-		this.tasks.remove(task);
 		if (task != null) {
+			if (this.tasks == null) {
+				return;
+			}
+			this.tasks.remove(task);
 			task.setContainingList(null);
 		}
 	}

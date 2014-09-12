@@ -3,11 +3,16 @@ package com.easoncxz.yntdl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
@@ -120,63 +125,102 @@ public class TestHibernateDao {
 		dao.update(u);
 		assertEquals(0, dao.getUserById(id).getTaskLists().size());
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testAttachTaskToTaskListThenUser() {
-		User u = new User();
-		u.setName("John");
+		Long id;
+		{
+			User u = new User();
+			u.setName("John");
 
-		TaskList l = new TaskList();
-		l.setName("Default task list");
+			TaskList l = new TaskList();
+			l.setName("Default task list");
 
-		Task t = new Task();
-		t.setTitle("Task title");
-		t.setContents("Something is due soon");
-		t.setLastModifiedDate(new Date());
-		t.setDueDate(new Date(114, 8, 15));
-		
-		l.addTask(t);
-		u.addTaskList(l);
-		dao.save(u);
-		Long id = u.getId();
-		assertNotNull(id);
-		
+			Task t = new Task();
+			t.setTitle("Task title");
+			t.setContents("Something is due soon");
+			t.setLastModifiedDate(new Date());
+			t.setDueDate(new Date(114, 8, 15));
+
+			l.addTask(t);
+			u.addTaskList(l);
+			dao.save(u);
+			id = u.getId();
+			assertNotNull(id);
+		}
+
 		{
 			User user = dao.getUserById(id);
 			List<TaskList> lists = user.getTaskLists();
-			assertNotNull(lists);
 			assertNotEquals(0, lists.size());
+
 			TaskList list = lists.get(0);
 			List<Task> tasks = list.getTasks();
-			assertNotNull(tasks);
 			assertNotEquals(0, tasks.size());
+
 			Task task = tasks.get(0);
 			assertNotNull(task);
-			
+
 			assertEquals("Task title", task.getTitle());
 			assertEquals("Something is due soon", task.getContents());
 			assertEquals("Default task list", list.getName());
-			assertEquals("John", u.getName());
-			
-			
-			{
-				list.deleteTask(task);
-				dao.save(user);
-				assertEquals(id, user.getId());
-
-				User user2 = dao.getUserById(id);
-				List<TaskList> lists2 = user2.getTaskLists();
-				assertNotNull(lists2);
-				assertNotEquals(0, lists2.size());
-				TaskList list2 = lists.get(0);
-				assertNotNull(list2);
-				List<Task> tasks2 = list2.getTasks();
-				assertNotNull(tasks2);
-
-				assertEquals(0, tasks2.size());  // !!
-			}
+			assertEquals("John", user.getName());
 		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testDetachTaskFromTaskListGivenUser() {
+		Long id;
+		{
+			User u = new User();
+			u.setName("John");
+
+			TaskList l = new TaskList();
+			l.setName("Default task list");
+
+			Task t = new Task();
+			t.setTitle("Task title");
+			t.setContents("Something is due soon");
+			t.setLastModifiedDate(new Date());
+			t.setDueDate(new Date(114, 8, 15));
+
+			l.addTask(t);
+			u.addTaskList(l);
+			dao.save(u);
+			id = u.getId();
+			assertNotNull(id);
+		}
+		{
+			User user = dao.getUserById(id);
+			TaskList list = user.getTaskLists().get(0);
+			Task task = list.getTasks().get(0);
+
+			list.deleteTask(task);
+			assertSame(user.getTaskLists().get(0), list);
+			dao.update(user);
+			assertEquals(id, user.getId());
+		}
+		{
+			User user = dao.getUserById(id);
+			TaskList list = user.getTaskLists().get(0);
+			assertEquals(0, list.getTasks().size());
+		}
+	}
+	
+	@Test
+	public void testJavaSetToAndFromListShallowConvert() {
+		Object o1 = new Object();
+		Set<Object> set = new HashSet<Object>();
+		set.add(o1);
+		List<Object> list = new ArrayList<Object>(set);
+		Object o2 = list.get(0);
+		assertSame(o1, o2);
+		assertTrue(o1 == o2);
+		Set<Object> set2 = new HashSet<Object>(list);
+		Object o3 = (new ArrayList<Object>(set2)).get(0);
+		assertSame(o1, o3);
 	}
 
 	@After
@@ -188,6 +232,7 @@ public class TestHibernateDao {
 		for (User u : beforeTests) {
 			assertNotNull(u);
 			assertNotNull(u.getId());
+			assertNull(dao.getUserById(u.getId()));
 			dao.save(u);
 		}
 		assertEquals(beforeTests.size(), dao.getAllUsers().size());
