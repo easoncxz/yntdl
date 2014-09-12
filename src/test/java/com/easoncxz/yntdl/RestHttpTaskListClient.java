@@ -1,5 +1,7 @@
 package com.easoncxz.yntdl;
 
+import static com.easoncxz.yntdl.util.MyUtils.dumpUser;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -40,25 +42,22 @@ public class RestHttpTaskListClient {
 		u.setName("UserFromClient");
 
 		logger.info("Now about to execute POST from client");
-		Object dontCare = template.postForObject(URL_CREATE_USER, u, Object.class);
-		logger.info("After POSTing, the user id became: " + u.getId());
+		dumpUser(logger, u);
+		u = template.postForObject(URL_CREATE_USER, u, User.class);
+		logger.info("Now the POST returned");
+		dumpUser(logger, u);
 
 		{
+			logger.info("Now we're about to retrieve all users");
 			@SuppressWarnings("unchecked")
 			Users userList = template.getForObject(URL_GET_ALL_USERS,
 					Users.class);
 			logger.info("the 'userList' really is a: "
 					+ userList.getClass().getName());
-			for (Object o : userList.getUsers()) {
-				User user = (User) o;
-				logger.info("\tThis received user's name is: " + user.getName());
-				for (TaskList list : user.getTaskLists()) {
-					logger.info("\t\tthere is task list: " + list.getName());
-					for (Task task : list.getTasks()) {
-						logger.info("\t\t\tthere is task: " + task.getTitle());
-					}
-				}
+			for (User user : userList.getUsers()) {
+				dumpUser(logger, user);
 			}
+			logger.info("All users retrieved. ^");
 		}
 		
 	}

@@ -33,13 +33,15 @@ public class ApiController {
 
 
 	@RequestMapping(value = "/users/", method = RequestMethod.POST)
-	public void createUser(@RequestBody User u) {
+	@ResponseBody
+	public User createUser(@RequestBody User u) {
 		Logger logger = LoggerFactory.getLogger(ApiController.class);
 		logger.info("Will now dump POSTed user:");
 		dumpUser(logger, u);
 		service.save(u);
 		logger.info("After the service.save call, here is the user again:");
 		dumpUser(logger, u);
+		return u;
 	}
 
 	@RequestMapping(value = "/users/john", method = RequestMethod.GET)
