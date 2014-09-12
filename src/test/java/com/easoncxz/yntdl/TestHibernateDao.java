@@ -95,13 +95,15 @@ public class TestHibernateDao {
 		TaskList l = new TaskList();
 		l.setName("Some list");
 		u.addTaskList(l);
-		assertTrue(u.getTaskLists().size() == 1);
+		assertEquals(1, u.getTaskLists().size());
 		dao.save(u);
-		assertTrue(u.getTaskLists().size() == 1);
-		Long id = u.getId();
-		assertNotNull(id);
+		assertEquals(1, u.getTaskLists().size());
+		Long uid = u.getId();
+		Long lid = u.getTaskLists().get(0).getId();
+		assertNotNull(uid);
+		assertNotNull(lid);
 
-		List<TaskList> lists = dao.getUserById(id).getTaskLists();
+		List<TaskList> lists = dao.getUserById(uid).getTaskLists();
 		logger.info("The list of TaskLists is actually a: "
 				+ lists.getClass().getName());
 		assertEquals(1, lists.size());
@@ -167,7 +169,7 @@ public class TestHibernateDao {
 			assertEquals("John", user.getName());
 		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testDetachTaskFromTaskListGivenUser() {
@@ -207,7 +209,7 @@ public class TestHibernateDao {
 			assertEquals(0, list.getTasks().size());
 		}
 	}
-	
+
 	@Test
 	public void testJavaSetToAndFromListShallowConvert() {
 		Object o1 = new Object();
@@ -220,6 +222,23 @@ public class TestHibernateDao {
 		Set<Object> set2 = new HashSet<Object>(list);
 		Object o3 = (new ArrayList<Object>(set2)).get(0);
 		assertSame(o1, o3);
+	}
+
+	@Test
+	public void testRecursivelyGeneratedId() {
+		User u = new User();
+		TaskList l = new TaskList();
+		Task t = new Task();
+		l.addTask(t);
+		u.addTaskList(l);
+		assertNull(u.getId());
+		assertNull(l.getId());
+		assertNull(t.getId());
+		dao.save(u);
+		assertNotNull(u.getId());
+		logger.info("The testing user id is: " + u.getId());
+		assertNotNull(l.getId());
+		assertNotNull(t.getId());
 	}
 
 	@After
