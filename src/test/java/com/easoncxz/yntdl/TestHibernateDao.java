@@ -158,6 +158,24 @@ public class TestHibernateDao {
 			assertEquals("Something is due soon", task.getContents());
 			assertEquals("Default task list", list.getName());
 			assertEquals("John", u.getName());
+			
+			
+			{
+				list.deleteTask(task);
+				dao.save(user);
+				assertEquals(id, user.getId());
+
+				User user2 = dao.getUserById(id);
+				List<TaskList> lists2 = user2.getTaskLists();
+				assertNotNull(lists2);
+				assertNotEquals(0, lists2.size());
+				TaskList list2 = lists.get(0);
+				assertNotNull(list2);
+				List<Task> tasks2 = list2.getTasks();
+				assertNotNull(tasks2);
+
+				assertEquals(0, tasks2.size());  // !!
+			}
 		}
 	}
 
