@@ -36,6 +36,20 @@ public class Task {
 	@Column(name = "TITLE")
 	private String title;
 
+	/**
+	 * @param other
+	 * @return true iff persistence object id is the same
+	 */
+	public boolean equals(Task other) {
+		if (other == null) {
+			return false;
+		} else if (this.id == null) {
+			return false;
+		} else {
+			return this.id.equals(other.id);
+		}
+	}
+
 	public TaskList getContainingList() {
 		return containingList;
 	}

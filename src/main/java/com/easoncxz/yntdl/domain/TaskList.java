@@ -1,10 +1,12 @@
 package com.easoncxz.yntdl.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,9 +38,35 @@ public class TaskList {
 			orphanRemoval = true)
 	private List<Task> tasks;
 
+	public void addTask(Task task) {
+		if (task != null) {
+			if (this.tasks == null) {
+				this.tasks = new ArrayList<Task>();
+			}
+			this.tasks.add(task);
+			task.setContainingList(this);
+		}
+	}
+
+	public void deleteTask(Task task) {
+		if (this.tasks == null) {
+			return;
+		}
+		this.tasks.remove(task);
+		if (task != null) {
+			task.setContainingList(null);
+		}
+	}
+
+	/**
+	 * @param other
+	 * @return true iff persistence object id is the same
+	 */
 	public boolean equals(TaskList other) {
-		if (this.id == null) {
-			return other.id == null;
+		if (other == null) {
+			return false;
+		} else if (this.id == null) {
+			return false;
 		} else {
 			return this.id.equals(other.id);
 		}
