@@ -50,7 +50,7 @@ public class Task {
 		}
 	}
 
-	public TaskList getContainingList() {
+	TaskList getContainingList() {
 		return containingList;
 	}
 
@@ -74,7 +74,7 @@ public class Task {
 		return title;
 	}
 
-	public void setContainingList(TaskList containingList) {
+	void setContainingList(TaskList containingList) {
 		this.containingList = containingList;
 	}
 

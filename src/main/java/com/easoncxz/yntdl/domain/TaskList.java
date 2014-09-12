@@ -83,7 +83,7 @@ public class TaskList {
 		return name;
 	}
 
-	public User getOwner() {
+	User getOwner() {
 		return owner;
 	}
 
@@ -99,7 +99,7 @@ public class TaskList {
 		this.name = name;
 	}
 
-	public void setOwner(User owner) {
+	void setOwner(User owner) {
 		this.owner = owner;
 	}
 
