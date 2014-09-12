@@ -2,6 +2,8 @@ package com.easoncxz.yntdl.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -37,12 +39,12 @@ public class TaskList {
 			cascade = CascadeType.ALL,
 			orphanRemoval = true,
 			fetch = FetchType.EAGER)
-	private List<Task> tasks;
+	private Set<Task> tasks;
 
 	public void addTask(Task task) {
 		if (task != null) {
 			if (this.tasks == null) {
-				this.tasks = new ArrayList<Task>();
+				this.tasks = new HashSet<Task>();
 			}
 			this.tasks.add(task);
 			task.setContainingList(this);
@@ -86,7 +88,7 @@ public class TaskList {
 	}
 
 	public List<Task> getTasks() {
-		return tasks;
+		return new ArrayList<Task>(tasks);
 	}
 
 	public void setId(Long id) {
@@ -102,7 +104,7 @@ public class TaskList {
 	}
 
 	public void setTasks(List<Task> tasks) {
-		this.tasks = tasks;
+		this.tasks = new HashSet<Task>(tasks);
 	}
 
 }

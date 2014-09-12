@@ -2,11 +2,12 @@ package com.easoncxz.yntdl.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,11 +31,11 @@ public class User {
 			targetEntity = TaskList.class,
 			cascade = CascadeType.ALL,
 			orphanRemoval = true)
-	private List<TaskList> taskLists;
+	private Set<TaskList> taskLists;
 
 	public void addTaskList(TaskList l) {
 		if (this.taskLists == null) {
-			this.taskLists = new ArrayList<TaskList>();
+			this.taskLists = new HashSet<TaskList>();
 		}
 		this.taskLists.add(l);
 		if (l != null) {
@@ -61,7 +62,7 @@ public class User {
 	}
 
 	public List<TaskList> getTaskLists() {
-		return taskLists;
+		return new ArrayList<TaskList>(taskLists);
 	}
 
 	public void setId(Long id) {
@@ -73,7 +74,7 @@ public class User {
 	}
 
 	public void setTaskLists(List<TaskList> taskLists) {
-		this.taskLists = taskLists;
+		this.taskLists = new HashSet<TaskList>(taskLists);
 	}
 
 	@Override
