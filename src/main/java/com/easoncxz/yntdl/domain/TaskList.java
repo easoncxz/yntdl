@@ -1,9 +1,9 @@
 package com.easoncxz.yntdl.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -86,7 +86,7 @@ public class TaskList {
 	User getOwner() {
 		return owner;
 	}
-
+	
 	public List<Task> getTasks() {
 		return new ArrayList<Task>(tasks);
 	}

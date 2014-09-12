@@ -1,10 +1,10 @@
 package com.easoncxz.yntdl.service;
 
+import static com.easoncxz.yntdl.util.MyUtils.cleanUser;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.easoncxz.yntdl.domain.TaskList;
 import com.easoncxz.yntdl.domain.User;
 import com.easoncxz.yntdl.persistence.Dao;
 
@@ -16,6 +16,7 @@ public class ServiceImpl implements Service {
 
 	@Override
 	public void delete(User user) {
+		cleanUser(user);
 		dao.delete(user);
 	}
 
@@ -31,11 +32,13 @@ public class ServiceImpl implements Service {
 
 	@Override
 	public void save(User user) {
+		cleanUser(user);
 		dao.save(user);
 	}
 
 	@Override
 	public void update(User user) {
+		cleanUser(user);
 		dao.update(user);
 	}
 
