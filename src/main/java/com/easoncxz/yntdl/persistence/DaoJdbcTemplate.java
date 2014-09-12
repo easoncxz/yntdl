@@ -13,7 +13,7 @@ import com.easoncxz.yntdl.domain.Task;
 import com.easoncxz.yntdl.domain.TaskList;
 import com.easoncxz.yntdl.domain.User;
 
-public class DaoJdbcTemplate implements Dao {
+public class DaoJdbcTemplate {
 
 	private static final class UserMapper implements RowMapper<User> {
 
@@ -39,61 +39,61 @@ public class DaoJdbcTemplate implements Dao {
 		this.template = namedParameterJdbcTemplate;
 	}
 
-	@Override
+	
 	public void delete(Task task) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public void delete(TaskList list) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public void delete(User u) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public List<User> getAllUsers() {
 		String sql = "SELECT ID, HUMAN_READABLE_NAME FROM USER;";
 		return this.template.query(sql, new UserMapper());
 	}
 
-	@Override
+	
 	public List<TaskList> getOwnedTaskLists(User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public List<Task> getTasksInList(TaskList list) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public User getUserById(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public Task save(Task task) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public TaskList save(TaskList list) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public User save(User user) {
 		if (user.getId() == null) {
 			// we've got a new user
@@ -104,25 +104,25 @@ public class DaoJdbcTemplate implements Dao {
 		return user;
 	}
 
-	@Override
+	
 	public List<User> searchForUserByName(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public User update(User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public Task update(Task task) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public TaskList update(TaskList list) {
 		// TODO Auto-generated method stub
 		return null;

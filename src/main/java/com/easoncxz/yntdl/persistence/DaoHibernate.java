@@ -38,7 +38,7 @@ public class DaoHibernate implements Dao {
 	@Override
 	public List<User> getAllUsers() {
 		List<User> result = sessionFactory.getCurrentSession()
-				.createQuery("from User u").list();
+				.createQuery("from User u left join fetch u.taskLists").list();
 		return result;
 	}
 
@@ -59,6 +59,7 @@ public class DaoHibernate implements Dao {
 		return null;
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public User getUserById(Long id) {
 		String hql = "select distinct u from User as u left join fetch u.taskLists as ls where u.id = :id";
@@ -80,6 +81,7 @@ public class DaoHibernate implements Dao {
 		// TODO does id populate correctly?
 	}
 
+	@Transactional
 	@Override
 	public User save(User user) {
 		if (user != null) {
