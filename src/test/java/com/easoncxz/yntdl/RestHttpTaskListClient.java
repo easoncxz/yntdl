@@ -1,6 +1,4 @@
-package com.easoncxz.yntdl.client;
-
-import java.util.List;
+package com.easoncxz.yntdl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +15,7 @@ public class RestHttpTaskListClient {
 
 	private static final String BASE_URL = "http://localhost:8080/yntdl/api";
 	private static final String URL_GET_ALL_USERS = BASE_URL + "/users";
-	private static final String URL_CREATE_USER = BASE_URL + "/users";
+	private static final String URL_CREATE_USER = BASE_URL + "/users/";
 
 	// private static final String URL_ ;
 	// private static final String URL_ ;
@@ -36,13 +34,14 @@ public class RestHttpTaskListClient {
 		TaskList l = new TaskList();
 		Task t = new Task();
 		t.setTitle("TaskFromClient");
-		l.setName("ListFromClient");
-		u.setName("UserFromClient");
 		l.addTask(t);
+		l.setName("ListFromClient");
 		u.addTaskList(l);
+		u.setName("UserFromClient");
 
-		// logger.info("Now about to execute POST from client");
-		// template.postForEntity(URL_CREATE_USER, u);
+		logger.info("Now about to execute POST from client");
+		Object dontCare = template.postForObject(URL_CREATE_USER, u, Object.class);
+		logger.info("After POSTing, the user id became: " + u.getId());
 
 		{
 			@SuppressWarnings("unchecked")
@@ -61,6 +60,7 @@ public class RestHttpTaskListClient {
 				}
 			}
 		}
+		
 	}
 
 }
