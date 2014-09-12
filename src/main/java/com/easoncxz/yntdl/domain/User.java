@@ -48,6 +48,9 @@ public class User {
 			return;
 		}
 		this.taskLists.remove(l);
+		if (l != null) {
+			l.setOwner(null);
+		}
 	}
 
 	public Long getId() {

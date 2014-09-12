@@ -83,18 +83,6 @@ public class DaoHibernate implements Dao {
 	@Override
 	public User save(User user) {
 		if (user != null) {
-			List<TaskList> lists = user.getTaskLists();
-			if (lists != null) {
-				for (TaskList l : lists) {
-					List<Task> tasks = l.getTasks();
-					if (tasks != null) {
-						for (Task t : l.getTasks()) {
-							save(t);
-						}
-					}
-					save(l);
-				}
-			}
 			sessionFactory.getCurrentSession().save(user);
 		}
 		return user;

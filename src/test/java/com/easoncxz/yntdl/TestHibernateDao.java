@@ -5,9 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.After;
@@ -102,6 +99,23 @@ public class TestHibernateDao {
 				+ lists.getClass().getName());
 		assertEquals(1, lists.size());
 		assertEquals("Some list", lists.get(0).getName());
+	}
+
+	@Test
+	public void testDetachTaskListFromUser() {
+		User u = new User();
+		u.setName("John");
+		TaskList l = new TaskList();
+		l.setName("ListOne");
+		u.addTaskList(l);
+		dao.save(u);
+		Long id = u.getId();
+		assertEquals("ListOne", dao.getUserById(id).getTaskLists().get(0)
+				.getName());
+
+		u.deleteTaskList(l);
+		dao.update(u);
+		assertEquals(0, dao.getUserById(id).getTaskLists().size());
 	}
 
 	@After
