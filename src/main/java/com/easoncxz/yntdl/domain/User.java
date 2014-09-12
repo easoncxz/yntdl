@@ -29,8 +29,7 @@ public class User {
 			mappedBy = "owner",
 			targetEntity = TaskList.class,
 			cascade = CascadeType.ALL,
-			orphanRemoval = true,
-			fetch = FetchType.EAGER)
+			orphanRemoval = true)
 	private List<TaskList> taskLists;
 
 	public void addTaskList(TaskList l) {

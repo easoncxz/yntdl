@@ -35,7 +35,8 @@ public class TaskList {
 			mappedBy = "containingList",
 			targetEntity = Task.class,
 			cascade = CascadeType.ALL,
-			orphanRemoval = true)
+			orphanRemoval = true,
+			fetch = FetchType.EAGER)
 	private List<Task> tasks;
 
 	public void addTask(Task task) {
