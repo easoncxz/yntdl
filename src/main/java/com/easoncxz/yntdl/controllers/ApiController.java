@@ -1,5 +1,7 @@
 package com.easoncxz.yntdl.controllers;
 
+import static com.easoncxz.yntdl.util.MyUtils.dumpUser;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +31,15 @@ public class ApiController {
 		return new Users(service.getAllUsers());
 	}
 
-	@RequestMapping(value = "/users", method = RequestMethod.POST)
-	public String createUser(@RequestBody User u) {
+
+	@RequestMapping(value = "/users/", method = RequestMethod.POST)
+	public void createUser(@RequestBody User u) {
 		Logger logger = LoggerFactory.getLogger(ApiController.class);
-		logger.info("The user received from the POST has name: " + u.getName());
-		logger.info("He has: " + u.getTaskLists().size()
-				+ " task lists, each of which contains these number of tasks:");
-		for (TaskList l : u.getTaskLists()) {
-			logger.info(l.getTasks().size() + " tasks");
-		}
+		logger.info("Will now dump POSTed user:");
+		dumpUser(logger, u);
 		service.save(u);
-		return "redirect:/api/users";
+		logger.info("After the service.save call, here is the user again:");
+		dumpUser(logger, u);
 	}
 
 	@RequestMapping(value = "/users/john", method = RequestMethod.GET)

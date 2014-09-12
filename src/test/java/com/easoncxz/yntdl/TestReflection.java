@@ -29,6 +29,8 @@ public class TestReflection {
 				"test-context.xml");
 		dao = context.getBean(Dao.class);
 		assertNotNull(dao);
+		
+		assertEquals("testnull", "test" + null);
 	}
 
 	@After

@@ -4,20 +4,46 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import org.slf4j.Logger;
+
 import com.easoncxz.yntdl.domain.Task;
 import com.easoncxz.yntdl.domain.TaskList;
 import com.easoncxz.yntdl.domain.User;
 
 public class MyUtils {
 
+	public static void dumpUser(Logger logger, User u) {
+		logger.info("The user has name: " + u.getName());
+		logger.info("The user has id: " + u.getId());
+		if (u.getTaskLists() != null) {
+			logger.info("\tHe has: " + u.getTaskLists().size() + " task lists:");
+			for (TaskList l : u.getTaskLists()) {
+				logger.info("\t\tlist name: " + l.getName());
+				logger.info("\t\tlist id: " + l.getId());
+				User owner = ownerGetter(l);
+				logger.info("\t\towner id: "
+						+ (owner == null ? "(null)" : owner.getId()));
+				logger.info("\t\tin this task list, there are: "
+						+ l.getTasks().size() + " tasks");
+				for (Task t : l.getTasks()) {
+					logger.info("\t\t\ttask title: " + t.getTitle());
+					logger.info("\t\t\ttask id: " + t.getId());
+					TaskList containingList = containingListGetter(t);
+					logger.info("\t\t\tcontaining list id: "
+							+ (containingList == null ? "(null)" : containingList
+									.getId()));
+				}
+			}
+		}
+	}
+
 	public static User ownerGetter(TaskList l) {
-		User resultingUser = null;
+		User result = null;
 		try {
 			Method method;
 			method = l.getClass().getDeclaredMethod("getOwner", null);
 			method.setAccessible(true);
-			Object result = method.invoke(l, null);
-			resultingUser = (User) result;
+			result = (User) method.invoke(l, null);
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
@@ -29,7 +55,7 @@ public class MyUtils {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		return resultingUser;
+		return result;
 	}
 	
 	public static void ownerSetter(TaskList l, User owner) {
