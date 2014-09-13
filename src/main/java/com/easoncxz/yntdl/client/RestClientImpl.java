@@ -5,11 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpRequest;
-import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.web.client.RestTemplate;
 
 import com.easoncxz.yntdl.domain.User;
@@ -41,23 +39,15 @@ public class RestClientImpl implements RestClient {
 		@Override
 		public ClientHttpResponse intercept(HttpRequest request, byte[] body,
 				ClientHttpRequestExecution execution) throws IOException {
-
-			// HttpRequestWrapper requestWrapper = new
-			// HttpRequestWrapper(request);
-			// request.getHeaders().setAccept(
-			// Arrays.asList(MediaType.valueOf(headerValue)));
-
 			request.getHeaders().add("Authorization", this.headerValue);
-
 			return execution.execute(request, body);
 		}
 	}
 
 	public void setRestTemplate(RestTemplate template) {
-		// this.template = new RestTemplateSub(template, this);
 		this.template = template;
-		ClientHttpRequestInterceptor intc = new MyHttpRequestInterceptor(
-				currentUsername + ":" + currentPassword);
+		String token = currentUsername + ":" + currentPassword;
+		ClientHttpRequestInterceptor intc = new MyHttpRequestInterceptor(token);
 		this.template.setInterceptors(Arrays.asList(intc));
 	}
 
