@@ -15,30 +15,30 @@ public class ServiceImpl implements Service {
 	private Dao dao;
 
 	@Override
-	public void delete(User user) {
+	public void delete(String token, User user) {
 		unmarshalledUserFixer(user);
 		dao.delete(user);
 	}
 
 	@Override
-	public List<User> getAllUsers() {
+	public List<User> getAllUsers(String token) {
 		return dao.getAllUsers();
 	}
 
 	@Override
-	public User getUserById(Long id) {
+	public User getUserById(String token, Long id) {
 		return dao.getUserById(id);
 	}
 
 	@Override
-	public User save(User user) {
+	public User save(String token, User user) {
 		unmarshalledUserFixer(user);
 		dao.save(user);
 		return user;
 	}
 
 	@Override
-	public User update(User user) {
+	public User update(String token, User user) {
 		unmarshalledUserFixer(user);
 		dao.update(user);
 		return user;
