@@ -19,11 +19,8 @@ public class RestClientImpl implements RestClient {
 
 	private RestTemplate template;
 
-//	public void setRestTemplate(RestTemplate template) {
-//		this.template = new RestTemplateSub(template, this);
-//	}
 	public void setRestTemplate(RestTemplate template) {
-		this.template = template;
+		this.template = new RestTemplateSub(template, this);
 	}
 
 	private String currentUsername;

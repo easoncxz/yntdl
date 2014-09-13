@@ -44,6 +44,7 @@ public class ApiController {
 	public Users getAllUsers(@RequestHeader(
 			value = "Authorization",
 			required = true) String token) {
+		logger.info("The auth token received by getAllUsers is: " + token);
 		return new Users(service.getAllUsers(token));
 	}
 

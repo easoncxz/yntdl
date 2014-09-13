@@ -27,27 +27,21 @@ public class ClientAuthenticationHelper {
 		Users result = null;
 
 		try {
-			// result = (User) joinpoint.proceed();
-
 			Object[] args = joinpoint.getArgs();
 			String url = (String) args[0];
-			Class clazz = (Class) args[1];
 
 			RestTemplate template = (RestTemplate) joinpoint.getThis();
 
 			HttpHeaders headers = new HttpHeaders();
-			headers.set("Authorization", "AuthFromClient");
+			headers.set("Authorization", "AuthFromAdvice");
 			HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
 			ResponseEntity<Users> response = template.exchange(url,
 					HttpMethod.GET, httpEntity, Users.class);
 			result = response.getBody();
 			
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
-
-		// return users;
 	}
 }
