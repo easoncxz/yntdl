@@ -19,22 +19,19 @@ public class RestClientImpl implements RestClient {
 
 	private RestTemplate template;
 
+//	public void setRestTemplate(RestTemplate template) {
+//		this.template = new RestTemplateSub(template, this);
+//	}
 	public void setRestTemplate(RestTemplate template) {
-		this.template = new RestTemplateSub(template, this);
+		this.template = template;
 	}
-	
+
 	private String currentUsername;
 	private String currentPassword;
 
 	@Override
 	public List<User> getAllUsers() {
-		Users users = null;
-		// Users users = template.getForObject(URL_ALL_USERS, Users.class);
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "AuthFromClient");
-		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
-		ResponseEntity<Users> response = template.exchange(URL_ALL_USERS, HttpMethod.GET, httpEntity, Users.class);
-		users = response.getBody();
+		Users users = template.getForObject(URL_ALL_USERS, Users.class);
 		return users.getUsers();
 	}
 
