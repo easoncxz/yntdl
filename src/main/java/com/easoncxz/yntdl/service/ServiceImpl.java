@@ -31,15 +31,17 @@ public class ServiceImpl implements Service {
 	}
 
 	@Override
-	public void save(User user) {
+	public User save(User user) {
 		cleanUser(user);
 		dao.save(user);
+		return user;
 	}
 
 	@Override
-	public void update(User user) {
+	public User update(User user) {
 		cleanUser(user);
 		dao.update(user);
+		return user;
 	}
 
 }

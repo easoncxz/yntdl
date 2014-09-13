@@ -43,7 +43,7 @@ public class TestCRUD {
 		list.addTask(task);
 		defaultUser.addTaskList(list);
 
-		crudder.save(defaultUser);
+		defaultUser = crudder.save(defaultUser);
 
 		assertNotNull(defaultUser.getId());
 		assertNotNull(defaultUser.getTaskLists().get(0).getId());
@@ -82,7 +82,7 @@ public class TestCRUD {
 	public void testUpdateUser() {
 		Long id = defaultUser.getId();
 		defaultUser.setName("new name");
-		crudder.update(defaultUser);
+		defaultUser = crudder.update(defaultUser);
 
 		User u = crudder.getUserById(id);
 		assertEquals("new name", id);
