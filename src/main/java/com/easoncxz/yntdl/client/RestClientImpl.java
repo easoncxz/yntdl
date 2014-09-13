@@ -23,6 +23,12 @@ public class RestClientImpl implements RestClient {
 
 	private RestTemplate template;
 
+	/**
+	 * Discovered from <a href=
+	 * "http://svenfila.wordpress.com/2012/01/05/resttemplate-with-custom-http-headers/"
+	 * >http://svenfila.wordpress.com/2012/01/05/resttemplate-with-custom-http-
+	 * headers/</a>
+	 */
 	private static class MyHttpRequestInterceptor implements
 			ClientHttpRequestInterceptor {
 
@@ -40,7 +46,7 @@ public class RestClientImpl implements RestClient {
 			// HttpRequestWrapper(request);
 			// request.getHeaders().setAccept(
 			// Arrays.asList(MediaType.valueOf(headerValue)));
-			
+
 			request.getHeaders().add("Authorization", this.headerValue);
 
 			return execution.execute(request, body);
@@ -50,7 +56,8 @@ public class RestClientImpl implements RestClient {
 	public void setRestTemplate(RestTemplate template) {
 		// this.template = new RestTemplateSub(template, this);
 		this.template = template;
-		ClientHttpRequestInterceptor intc = new MyHttpRequestInterceptor(currentUsername + ":" + currentPassword);
+		ClientHttpRequestInterceptor intc = new MyHttpRequestInterceptor(
+				currentUsername + ":" + currentPassword);
 		this.template.setInterceptors(Arrays.asList(intc));
 	}
 
