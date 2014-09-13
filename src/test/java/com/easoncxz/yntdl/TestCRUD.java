@@ -37,7 +37,7 @@ public class TestCRUD {
 		crudder.login("johndoe", "1234");
 	}
 
-//	@Before
+	@Before
 	public void setUp() throws Exception {
 		defaultUser = new User();
 		defaultUser.setName("test user");

@@ -1,11 +1,15 @@
 package com.easoncxz.yntdl.client;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.web.client.RestTemplate;
 
 import com.easoncxz.yntdl.domain.User;
@@ -19,8 +23,35 @@ public class RestClientImpl implements RestClient {
 
 	private RestTemplate template;
 
+	private static class MyHttpRequestInterceptor implements
+			ClientHttpRequestInterceptor {
+
+		private final String headerValue;
+
+		MyHttpRequestInterceptor(String headerValue) {
+			this.headerValue = headerValue;
+		}
+
+		@Override
+		public ClientHttpResponse intercept(HttpRequest request, byte[] body,
+				ClientHttpRequestExecution execution) throws IOException {
+
+			// HttpRequestWrapper requestWrapper = new
+			// HttpRequestWrapper(request);
+			// request.getHeaders().setAccept(
+			// Arrays.asList(MediaType.valueOf(headerValue)));
+			
+			request.getHeaders().add("Authorization", this.headerValue);
+
+			return execution.execute(request, body);
+		}
+	}
+
 	public void setRestTemplate(RestTemplate template) {
-		this.template = new RestTemplateSub(template, this);
+		// this.template = new RestTemplateSub(template, this);
+		this.template = template;
+		ClientHttpRequestInterceptor intc = new MyHttpRequestInterceptor(currentUsername + ":" + currentPassword);
+		this.template.setInterceptors(Arrays.asList(intc));
 	}
 
 	private String currentUsername;
@@ -55,15 +86,22 @@ public class RestClientImpl implements RestClient {
 
 	@Override
 	public void login(String username, String password) {
-		this.currentPassword = username;
+		this.currentUsername = username;
 		this.currentPassword = password;
 	}
 
 	@Override
 	public void logout() {
+		this.currentUsername = null;
 		this.currentPassword = null;
-		this.currentPassword = null;
+	}
 
+	public String getCurrentUsername() {
+		return currentUsername;
+	}
+
+	public String getCurrentPassword() {
+		return currentPassword;
 	}
 
 }
