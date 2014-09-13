@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TASK")
-public class Task {
+public class Task implements Comparable<Task> {
 
 	@ManyToOne
 	@JoinColumn(name = "TASK_LIST_ID")
@@ -96,6 +96,11 @@ public class Task {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	@Override
+	public int compareTo(Task o) {
+		return this.id.compareTo(o.id);
 	}
 
 }

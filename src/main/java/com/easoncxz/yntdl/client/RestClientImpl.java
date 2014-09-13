@@ -20,8 +20,11 @@ public class RestClientImpl implements RestClient {
 	private RestTemplate template;
 
 	public void setRestTemplate(RestTemplate template) {
-		this.template = template;
+		this.template = new RestTemplateSub(template, this);
 	}
+	
+	private String currentUsername;
+	private String currentPassword;
 
 	@Override
 	public List<User> getAllUsers() {
@@ -58,13 +61,14 @@ public class RestClientImpl implements RestClient {
 
 	@Override
 	public void login(String username, String password) {
-		// TODO Auto-generated method stub
-
+		this.currentPassword = username;
+		this.currentPassword = password;
 	}
 
 	@Override
 	public void logout() {
-		// TODO Auto-generated method stub
+		this.currentPassword = null;
+		this.currentPassword = null;
 
 	}
 

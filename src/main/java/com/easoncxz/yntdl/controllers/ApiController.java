@@ -1,7 +1,5 @@
 package com.easoncxz.yntdl.controllers;
 
-import static com.easoncxz.yntdl.util.MyUtils.dumpUser;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,44 +32,47 @@ public class ApiController {
 
 	@RequestMapping(value = "/users/", method = RequestMethod.POST)
 	@ResponseBody
-	public User createUser(@RequestBody User u) {
-		logger.info("Will now dump POSTed user:");
-		dumpUser(logger, u);
-
-		User result = service.save("", u);
-
-		logger.info("After the service.save call, here is the user again:");
-		dumpUser(logger, result);
+	public User createUser(@RequestBody User u, @RequestHeader(
+			value = "Authorization",
+			required = true) String token) {
+		User result = service.save(token, u);
 		return result;
 	}
 
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	@ResponseBody
-	public Users getAllUsers(
-			@RequestHeader(value = "Authorization") String token) {
-		logger.info("The Authorization header is: " + token);
-		return new Users(service.getAllUsers(""));
+	public Users getAllUsers(@RequestHeader(
+			value = "Authorization",
+			required = true) String token) {
+		return new Users(service.getAllUsers(token));
 	}
 
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public User getUserById(@PathVariable Long id) {
-		return service.getUserById("", id);
+	public User getUserById(@PathVariable Long id, @RequestHeader(
+			value = "Authorization",
+			required = true) String token) {
+		return service.getUserById(token, id);
 	}
 
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
 	@ResponseBody
-	public User updateUser(@RequestBody User u, @PathVariable Long id) {
-		User result = service.update("", u);
+	public User updateUser(
+			@RequestBody User u,
+			@PathVariable Long id,
+			@RequestHeader(value = "Authorization", required = true) String token) {
+		User result = service.update(token, u);
 		return result;
 	}
 
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-	public String deleteUser(@PathVariable Long id) {
-		User u = service.getUserById("", id);
+	public String deleteUser(@PathVariable Long id, @RequestHeader(
+			value = "Authorization",
+			required = true) String token) {
+		User u = service.getUserById(token, id);
 		if (u != null) {
-			service.delete("", u);
+			service.delete(token, u);
 		}
 		return "redirect:/users/";
 	}

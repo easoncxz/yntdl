@@ -34,6 +34,7 @@ public class TestCRUD {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"test-context.xml");
 		crudder = context.getBean("restClient", RestClient.class);
+		crudder.login("johndoe", "1234");
 	}
 
 	@Before
@@ -61,6 +62,7 @@ public class TestCRUD {
 		if (defaultUser != null) {
 			crudder.delete(defaultUser);
 		}
+		crudder.logout();
 	}
 
 	@Test
