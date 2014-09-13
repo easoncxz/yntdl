@@ -116,7 +116,7 @@ public class MyUtils {
 		}
 	}
 	
-	public static void cleanUser(User user) {
+	public static void unmarshalledUserFixer(User user) {
 		if (user != null) {
 			List<TaskList> lists = user.getTaskLists();
 			if (lists != null) {
@@ -131,6 +131,16 @@ public class MyUtils {
 						ownerSetter(list, user);
 					}
 				}
+			}
+		}
+	}
+	
+	public static void userTransientizer(User user) {
+		user.setId(null);
+		for (TaskList l : user.getTaskLists()) {
+			l.setId(null);
+			for (Task t : l.getTasks()) {
+				t.setId(null);
 			}
 		}
 	}

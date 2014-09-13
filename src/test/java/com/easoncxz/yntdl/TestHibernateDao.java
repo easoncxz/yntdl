@@ -1,5 +1,6 @@
 package com.easoncxz.yntdl;
 
+import static com.easoncxz.yntdl.util.MyUtils.userTransientizer;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -251,6 +252,7 @@ public class TestHibernateDao {
 			assertNotNull(u);
 			assertNotNull(u.getId());
 			assertNull(dao.getUserById(u.getId()));
+			userTransientizer(u);
 			dao.save(u);
 		}
 		assertEquals(beforeTests.size(), dao.getAllUsers().size());

@@ -1,8 +1,6 @@
 package com.easoncxz.yntdl.client;
 
-import java.util.List;
-
-import com.easoncxz.yntdl.domain.User;
+import com.easoncxz.yntdl.service.Service;
 
 /**
  * Just because the client needs to be able to do the same CRUD operations as
@@ -11,16 +9,6 @@ import com.easoncxz.yntdl.domain.User;
  * @author eason
  *
  */
-public interface RestClient {
-
-	List<User> getAllUsers();
-	
-	User getUserById(Long id);
-	
-	User save(User user);
-	
-	User update(User user);
-	
-	void delete(User user);
+public interface RestClient extends Service {
 
 }

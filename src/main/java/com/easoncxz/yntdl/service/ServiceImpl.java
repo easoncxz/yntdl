@@ -1,6 +1,6 @@
 package com.easoncxz.yntdl.service;
 
-import static com.easoncxz.yntdl.util.MyUtils.cleanUser;
+import static com.easoncxz.yntdl.util.MyUtils.unmarshalledUserFixer;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.easoncxz.yntdl.domain.User;
 import com.easoncxz.yntdl.persistence.Dao;
 
-@org.springframework.stereotype.Service
+@org.springframework.stereotype.Service("serverService")
 public class ServiceImpl implements Service {
 	
 	@Autowired
@@ -16,7 +16,7 @@ public class ServiceImpl implements Service {
 
 	@Override
 	public void delete(User user) {
-		cleanUser(user);
+		unmarshalledUserFixer(user);
 		dao.delete(user);
 	}
 
@@ -32,14 +32,14 @@ public class ServiceImpl implements Service {
 
 	@Override
 	public User save(User user) {
-		cleanUser(user);
+		unmarshalledUserFixer(user);
 		dao.save(user);
 		return user;
 	}
 
 	@Override
 	public User update(User user) {
-		cleanUser(user);
+		unmarshalledUserFixer(user);
 		dao.update(user);
 		return user;
 	}

@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "USER")
-public class User {
+public class User implements Comparable<User> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,6 +79,11 @@ public class User {
 	@Override
 	public String toString() {
 		return this.getName();
+	}
+
+	@Override
+	public int compareTo(User other) {
+		return this.id.compareTo(other.id);
 	}
 
 }

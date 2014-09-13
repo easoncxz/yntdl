@@ -25,7 +25,7 @@ public class TestService {
 
 	private List<User> beforeTests;
 
-	private Logger logger = LoggerFactory.getLogger(TestHibernateDao.class);
+	private Logger logger = LoggerFactory.getLogger(TestService.class);
 
 	private Service service;
 	
@@ -34,7 +34,7 @@ public class TestService {
 		context = new ClassPathXmlApplicationContext("test-context.xml");
 		assertNotNull(context);
 
-		service = context.getBean(Service.class);
+		service = context.getBean("serverService", Service.class);
 		assertNotNull(service);
 
 		beforeTests = service.getAllUsers();
@@ -42,6 +42,7 @@ public class TestService {
 
 		for (User u : beforeTests) {
 			assertNotNull(u);
+			assertNotNull(u.getId());
 			service.delete(u);
 		}
 		assertEquals(0, service.getAllUsers().size());

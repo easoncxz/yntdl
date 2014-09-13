@@ -98,7 +98,7 @@ public class TestRest {
 		// update should return updated object
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", user.getId());
-		user = template.postForObject(URL_UPDATE_USER, user, User.class, params);
+		template.put(URL_UPDATE_USER, user, params);
 		
 		assertEquals(2, user.getTaskLists().size());
 	}

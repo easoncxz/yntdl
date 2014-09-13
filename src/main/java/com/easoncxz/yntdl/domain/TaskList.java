@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TASK_LIST")
-public class TaskList {
+public class TaskList implements Comparable<TaskList> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -104,6 +104,11 @@ public class TaskList {
 
 	public void setTasks(List<Task> tasks) {
 		this.tasks = new HashSet<Task>(tasks);
+	}
+
+	@Override
+	public int compareTo(TaskList other) {
+		return this.id.compareTo(other.id);
 	}
 
 }
