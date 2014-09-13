@@ -1,6 +1,7 @@
 package com.easoncxz.yntdl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -57,23 +58,23 @@ public class TestCRUD {
 			crudder.delete(defaultUser);
 		}
 	}
-	
+
 	@Test
 	public void testCreateUser() {
 		// done in setUp.
 	}
-	
+
 	@Test
 	public void testRetrieveAllUsers() {
 		List<User> users = crudder.getAllUsers();
-		assertEquals(0, users.size());
+		assertNotEquals(0, users.size());
 	}
-	
+
 	@Test
 	public void testRetrieveUserById() {
 		String uname = defaultUser.getName();
 		Long id = defaultUser.getId();
-		
+
 		User u = crudder.getUserById(id);
 		assertEquals(uname, u.getName());
 	}
@@ -85,14 +86,14 @@ public class TestCRUD {
 		defaultUser = crudder.update(defaultUser);
 
 		User u = crudder.getUserById(id);
-		assertEquals("new name", id);
+		assertEquals("new name", u.getName());
 	}
-	
+
 	@Test
 	public void testDeleteUser() {
 		Long id = defaultUser.getId();
 		crudder.delete(defaultUser);
-		
+
 		User u = crudder.getUserById(id);
 		assertNull(u);
 	}

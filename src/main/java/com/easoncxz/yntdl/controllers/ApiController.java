@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,23 +26,48 @@ public class ApiController {
 	@Autowired
 	private Service service;
 
+	private Logger logger = LoggerFactory.getLogger(ApiController.class);
+
+	@RequestMapping(value = "/users/", method = RequestMethod.POST)
+	@ResponseBody
+	public User createUser(@RequestBody User u) {
+		logger.info("Will now dump POSTed user:");
+		dumpUser(logger, u);
+
+		User result = service.save(u);
+
+		logger.info("After the service.save call, here is the user again:");
+		dumpUser(logger, result);
+		return result;
+	}
+
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	@ResponseBody
 	public Users getAllUsers() {
 		return new Users(service.getAllUsers());
 	}
 
-
-	@RequestMapping(value = "/users/", method = RequestMethod.POST)
+	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public User createUser(@RequestBody User u) {
-		Logger logger = LoggerFactory.getLogger(ApiController.class);
-		logger.info("Will now dump POSTed user:");
-		dumpUser(logger, u);
-		service.save(u);
-		logger.info("After the service.save call, here is the user again:");
-		dumpUser(logger, u);
-		return u;
+	public User getUserById(@PathVariable Long id) {
+		return service.getUserById(id);
+	}
+
+	@RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public User updateUser(@RequestBody User u, @PathVariable Long id) {
+		User result = service.update(u);
+		return result;
+	}
+
+	@SuppressWarnings("deprecation")
+	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+	public String deleteUser(@PathVariable Long id) {
+		User u = service.getUserById(id);
+		if (u != null) {
+			service.delete(u);
+		}
+		return "redirect:/users/";
 	}
 
 	@RequestMapping(value = "/users/john", method = RequestMethod.GET)
@@ -67,12 +93,6 @@ public class ApiController {
 		l.addTask(new Task());
 		u.addTaskList(l);
 		return u;
-	}
-
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public User getUserById(@PathVariable Long id) {
-		return service.getUserById(id);
 	}
 
 }
