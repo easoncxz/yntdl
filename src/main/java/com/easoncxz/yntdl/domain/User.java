@@ -33,11 +33,12 @@ public class User {
 			orphanRemoval = true)
 	private Set<TaskList> taskLists;
 
+	public User() {
+		this.taskLists = new HashSet<TaskList>();
+	}
+
 	public void addTaskList(TaskList l) {
 		if (l != null) {
-			if (this.taskLists == null) {
-				this.taskLists = new HashSet<TaskList>();
-			}
 			this.taskLists.add(l);
 			l.setOwner(this);
 		}
@@ -45,9 +46,6 @@ public class User {
 
 	public void deleteTaskList(TaskList l) {
 		if (l != null) {
-			if (this.taskLists == null) {
-				return;
-			}
 			this.taskLists.remove(l);
 			l.setOwner(null);
 		}

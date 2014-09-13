@@ -40,12 +40,13 @@ public class TaskList {
 			orphanRemoval = true,
 			fetch = FetchType.EAGER)
 	private Set<Task> tasks;
+	
+	public TaskList() {
+		this.tasks = new HashSet<Task>();
+	}
 
 	public void addTask(Task task) {
 		if (task != null) {
-			if (this.tasks == null) {
-				this.tasks = new HashSet<Task>();
-			}
 			this.tasks.add(task);
 			task.setContainingList(this);
 		}
@@ -53,9 +54,6 @@ public class TaskList {
 
 	public void deleteTask(Task task) {
 		if (task != null) {
-			if (this.tasks == null) {
-				return;
-			}
 			this.tasks.remove(task);
 			task.setContainingList(null);
 		}
