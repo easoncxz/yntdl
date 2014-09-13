@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,7 +35,7 @@ public class User {
 	private Set<TaskList> taskLists;
 
 	public User() {
-		this.taskLists = new HashSet<TaskList>();
+		this.taskLists = new TreeSet<TaskList>();
 	}
 
 	public void addTaskList(TaskList l) {

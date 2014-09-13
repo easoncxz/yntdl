@@ -80,7 +80,8 @@ public class TestCRUD {
 		Long uid = defaultUser.getId();
 		String lname = defaultUser.getTaskLists().get(0).getName();
 		Long lid = defaultUser.getTaskLists().get(0).getId();
-		String ttitle = defaultUser.getTaskLists().get(0).getTasks().get(0).getTitle();
+		String ttitle = defaultUser.getTaskLists().get(0).getTasks().get(0)
+				.getTitle();
 		Long tid = defaultUser.getTaskLists().get(0).getTasks().get(0).getId();
 
 		User u = crudder.getUserById(uid);
@@ -114,7 +115,7 @@ public class TestCRUD {
 		User u = crudder.getUserById(id);
 		assertNull(u);
 	}
-	
+
 	@Test
 	public void testCreateListByUpdatingUser() {
 		Long id = defaultUser.getId();
@@ -123,11 +124,11 @@ public class TestCRUD {
 		newList.setName("a *second* list");
 		defaultUser.addTaskList(newList);
 		crudder.update(defaultUser);
-		
+
 		User u = crudder.getUserById(id);
 		assertEquals(2, u.getTaskLists().size());
 	}
-	
+
 	@Test
 	public void testUpdateListByUpdatingUser() {
 		Long id = defaultUser.getId();
@@ -136,7 +137,7 @@ public class TestCRUD {
 		t.setTitle("a new task!");
 		defaultUser.getTaskLists().get(0).addTask(t);
 		crudder.update(defaultUser);
-		
+
 		User u = crudder.getUserById(id);
 		List<Task> tasks = u.getTaskLists().get(0).getTasks();
 		assertEquals(2, tasks.size());
@@ -149,7 +150,7 @@ public class TestCRUD {
 		}
 		assertTrue(success);
 	}
-	
+
 	@Test
 	public void testDeleteListByUpdatingUser() {
 		Long id = defaultUser.getId();
@@ -162,4 +163,51 @@ public class TestCRUD {
 		dumpUser(logger, user);
 	}
 
+	@Test
+	public void testCreateTaskByUpdatingUser() {
+		Long id = defaultUser.getId();
+		assertNotNull(id);
+		TaskList l = defaultUser.getTaskLists().get(0);
+		Task newTask = new Task();
+		newTask.setTitle("new task!");
+		l.addTask(newTask);
+		User result = crudder.update(defaultUser);
+
+		List<Task> tasks = result.getTaskLists().get(0).getTasks();
+		assertEquals(2, tasks.size());
+		boolean success = false;
+		for (Task task : tasks) {
+			if (task.getTitle().equals("new task!")) {
+				success = true;
+				break;
+			}
+		}
+		assertTrue(success);
+	}
+
+	@Test
+	public void testUpdateTaskByUpdatingUser() {
+		Long id = defaultUser.getId();
+		assertNotNull(id);
+
+		TaskList l = defaultUser.getTaskLists().get(0);
+		Task t = l.getTasks().get(0);
+
+		String content = "this wasn't here before test task";
+		t.setContents(content);
+
+		User result = crudder.update(defaultUser);
+		assertEquals(content, result.getTaskLists().get(0).getTasks().get(0)
+				.getContents());
+	}
+
+	@Test
+	public void testDeleteTaskByUpdatingUser() {
+		TaskList l = defaultUser.getTaskLists().get(0);
+		Task t = l.getTasks().get(0);
+		l.deleteTask(t);
+
+		User result = crudder.update(defaultUser);
+		assertEquals(0, result.getTaskLists().get(0).getTasks().size());
+	}
 }
