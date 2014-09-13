@@ -1,7 +1,10 @@
 package com.easoncxz.yntdl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNull;
+
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,41 +19,82 @@ import com.easoncxz.yntdl.domain.TaskList;
 import com.easoncxz.yntdl.domain.User;
 
 public class TestCRUD {
-	
-	private static RestClient client;
+
+	private static RestClient crudder;
+
+	private User defaultUser;
 
 	@BeforeClass
 	public static void metaSetup() {
-		ApplicationContext context = new ClassPathXmlApplicationContext("test-context.xml");
-		client = context.getBean("restClient", RestClient.class);
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"test-context.xml");
+		crudder = context.getBean("restClient", RestClient.class);
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		User user = new User();
-		user.setName("test user");
+		defaultUser = new User();
+		defaultUser.setName("test user");
 		TaskList list = new TaskList();
 		list.setName("test list");
 		Task task = new Task();
 		task.setTitle("test task");
-		
+
 		list.addTask(task);
-		user.addTaskList(list);
-		
-		client.save(user);
-		
-		assertNotNull(user.getId());
-		assertNotNull(user.getTaskLists().get(0).getId());
-		assertNotNull(user.getTaskLists().get(0).getTasks().get(0).getId());
+		defaultUser.addTaskList(list);
+
+		crudder.save(defaultUser);
+
+		assertNotNull(defaultUser.getId());
+		assertNotNull(defaultUser.getTaskLists().get(0).getId());
+		assertNotNull(defaultUser.getTaskLists().get(0).getTasks().get(0)
+				.getId());
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		if (defaultUser != null) {
+			crudder.delete(defaultUser);
+		}
+	}
+	
+	@Test
+	public void testCreateUser() {
+		// done in setUp.
+	}
+	
+	@Test
+	public void testRetrieveAllUsers() {
+		List<User> users = crudder.getAllUsers();
+		assertEquals(0, users.size());
+	}
+	
+	@Test
+	public void testRetrieveUserById() {
+		String uname = defaultUser.getName();
+		Long id = defaultUser.getId();
+		
+		User u = crudder.getUserById(id);
+		assertEquals(uname, u.getName());
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testUpdateUser() {
+		Long id = defaultUser.getId();
+		defaultUser.setName("new name");
+		crudder.update(defaultUser);
+
+		User u = crudder.getUserById(id);
+		assertEquals("new name", id);
+	}
+	
+	@Test
+	public void testDeleteUser() {
+		Long id = defaultUser.getId();
+		crudder.delete(defaultUser);
+		
+		User u = crudder.getUserById(id);
+		assertNull(u);
 	}
 
 }
