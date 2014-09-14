@@ -100,9 +100,4 @@
 			ref="restTemplate" />
 	</bean>
 
-	<bean
-		id="clientAuthHelper"
-		class="com.easoncxz.yntdl.client.ClientAuthenticationHelper">
-	</bean>
-
 </beans>
