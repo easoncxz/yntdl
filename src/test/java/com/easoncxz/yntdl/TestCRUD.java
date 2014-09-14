@@ -223,4 +223,28 @@ public class TestCRUD {
 		}
 		fail("should't be able to operate after logging out");
 	}
+	
+	@Test
+	public void testSaveNullUser() {
+		crudder.save(null);
+	}
+	
+	@Test
+	public void testUpdateNullUser() {
+		crudder.update(null);
+	}
+	
+	@Test
+	public void testDeleteNullUser() {
+		crudder.delete(null);
+	}
+	
+	@Test
+	public void testUpdateNonexistentUser() {
+		crudder.update(new User());
+	}
+	@Test
+	public void testDeleteNonexistentUser() {
+		crudder.delete(new User());
+	}
 }

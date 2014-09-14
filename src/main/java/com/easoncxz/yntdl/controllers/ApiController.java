@@ -35,7 +35,6 @@ public class ApiController {
 	public User createUser(@RequestBody User u, @RequestHeader(
 			value = "Authorization",
 			required = true) String token) {
-		logger.info("received token at createUser is: " + token);
 		User result = service.save(token, u);
 		return result;
 	}
@@ -45,7 +44,6 @@ public class ApiController {
 	public Users getAllUsers(@RequestHeader(
 			value = "Authorization",
 			required = true) String token) {
-		logger.info("The auth token received by getAllUsers is: " + token);
 		return new Users(service.getAllUsers(token));
 	}
 
@@ -72,37 +70,9 @@ public class ApiController {
 	public String deleteUser(@PathVariable Long id, @RequestHeader(
 			value = "Authorization",
 			required = true) String token) {
-		logger.info("received token at deleteUser is: " + token);
 		User u = service.getUserById(token, id);
-		if (u != null) {
-			service.delete(token, u);
-		}
+		service.delete(token, u);
 		return "redirect:/api/users/";
-	}
-
-	@RequestMapping(value = "/users/john", method = RequestMethod.GET)
-	@ResponseBody
-	public User getJohn() {
-		User u = new User();
-		u.setName("John");
-
-		TaskList l = new TaskList();
-		l.setName("SomeList");
-
-		Task t = new Task();
-		t.setTitle("TaskTitleHere");
-		l.addTask(t);
-
-		t = new Task();
-		t.setTitle("AnotherTask");
-		l.addTask(t);
-
-		u.addTaskList(l);
-
-		l = new TaskList();
-		l.addTask(new Task());
-		u.addTaskList(l);
-		return u;
 	}
 
 }
