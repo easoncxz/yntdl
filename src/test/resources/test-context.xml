@@ -105,6 +105,4 @@
 		class="com.easoncxz.yntdl.client.ClientAuthenticationHelper">
 	</bean>
 
-<!-- 	<aop:aspectj-autoproxy proxy-target-class="true"/> -->
-
 </beans>
