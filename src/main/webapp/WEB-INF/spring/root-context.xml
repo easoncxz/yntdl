@@ -10,7 +10,7 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean
-		id="mysqlDatasource"
+		id="mysqlDataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property
 			name="driverClassName"
@@ -25,8 +25,41 @@
 			name="password"
 			value="1234" />
 	</bean>
+	<bean
+		id="springSessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property
+			name="dataSource"
+			ref="mysqlDataSource" />
+		<property
+			name="packagesToScan"
+			value="com.easoncxz.yntdl.domain" />
+		<property name="hibernateProperties">
+			<props>
+				<!-- <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop> -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.max_fetch_depth">3</prop>
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.jdbc.batch_size">10</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean
+		id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property
+			name="sessionFactory"
+			ref="springSessionFactory" />
+	</bean>
+	<tx:annotation-driven />
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 	
-	<context:component-scan base-package="com.easoncxz.yntdl"></context:component-scan>
+	<context:component-scan base-package="com.easoncxz.yntdl.domain,
+		com.easoncxz.yntdl.persistence,
+		com.easoncxz.yntdl.util,
+		com.easoncxz.yntdl.service"></context:component-scan>
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
-
+	
 </beans>

@@ -40,7 +40,7 @@ public class TestCRUD {
 
 	@Before
 	public void setUp() throws Exception {
-		crudder.login("jack", "qwer @@ " + (new Date()));
+		crudder.login("johndoe", "1234");
 		
 		defaultUser = new User();
 		defaultUser.setName("test user");
@@ -62,7 +62,7 @@ public class TestCRUD {
 
 	@After
 	public void tearDown() throws Exception {
-		crudder.login("TestAdmin", "pw");
+		crudder.login("johndoe", "1234");
 		if (defaultUser != null) {
 			crudder.delete(defaultUser);
 		}

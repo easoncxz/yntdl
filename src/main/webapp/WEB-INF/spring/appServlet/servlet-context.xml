@@ -43,57 +43,6 @@
 			value=".jsp" />
 	</bean>
 
-	<context:component-scan base-package="com.easoncxz.yntdl" />
-
-	<bean
-		id="mysqlDataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property
-			name="driverClassName"
-			value="com.mysql.jdbc.Driver" />
-		<property
-			name="url"
-			value="jdbc:mysql://localhost:3306/yntdl" />
-		<property
-			name="username"
-			value="eason" />
-		<property
-			name="password"
-			value="1234" />
-	</bean>
-
-	<tx:annotation-driven />
-
-	<bean
-		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
-
-	<bean
-		id="springSessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property
-			name="dataSource"
-			ref="mysqlDataSource" />
-		<property
-			name="packagesToScan"
-			value="com.easoncxz.yntdl.domain" />
-		<property name="hibernateProperties">
-			<props>
-				<!-- <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop> -->
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<prop key="hibernate.max_fetch_depth">3</prop>
-				<prop key="hibernate.jdbc.fetch_size">50</prop>
-				<prop key="hibernate.jdbc.batch_size">10</prop>
-				<prop key="hibernate.show_sql">true</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean
-		id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property
-			name="sessionFactory"
-			ref="springSessionFactory" />
-	</bean>
+	<context:component-scan base-package="com.easoncxz.yntdl.controllers" />
 
 </beans>
