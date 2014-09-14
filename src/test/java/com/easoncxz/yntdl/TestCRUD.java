@@ -6,10 +6,13 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.client.HttpClientErrorException;
 
 import com.easoncxz.yntdl.client.RestClient;
 import com.easoncxz.yntdl.domain.Task;
@@ -34,11 +38,12 @@ public class TestCRUD {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"test-context.xml");
 		crudder = context.getBean("restClient", RestClient.class);
-		crudder.login("johndoe", "1234");
 	}
 
 	@Before
 	public void setUp() throws Exception {
+		crudder.login("jack", "qwer @@ " + (new Date()));
+		
 		defaultUser = new User();
 		defaultUser.setName("test user");
 		TaskList list = new TaskList();
@@ -59,15 +64,11 @@ public class TestCRUD {
 
 	@After
 	public void tearDown() throws Exception {
+		crudder.login("TestAdmin", "pw");
 		if (defaultUser != null) {
 			crudder.delete(defaultUser);
 		}
 		crudder.logout();
-	}
-
-	@Test
-	public void testCreateUser() {
-		// done in setUp.
 	}
 
 	@Test
@@ -161,8 +162,6 @@ public class TestCRUD {
 		defaultUser.deleteTaskList(l);
 		User user = crudder.update(defaultUser);
 		assertEquals(0, user.getTaskLists().size());
-		logger.info("TestCRUD testDeleteListByUpdatingUser - now dump user after op:");
-		dumpUser(logger, user);
 	}
 
 	@Test
@@ -211,5 +210,19 @@ public class TestCRUD {
 
 		User result = crudder.update(defaultUser);
 		assertEquals(0, result.getTaskLists().get(0).getTasks().size());
+	}
+	
+	@Test
+	public void testLoginLogout() {
+		crudder.logout();
+		User u = new User();
+		u.setName("This shouldn't be persisted");
+		try {
+			crudder.save(u);
+		} catch (HttpClientErrorException e) {
+			// test passed
+			return;
+		}
+		fail("should't be able to operate after logging out");
 	}
 }

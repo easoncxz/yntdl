@@ -35,6 +35,7 @@ public class ApiController {
 	public User createUser(@RequestBody User u, @RequestHeader(
 			value = "Authorization",
 			required = true) String token) {
+		logger.info("received token at createUser is: " + token);
 		User result = service.save(token, u);
 		return result;
 	}
@@ -71,11 +72,12 @@ public class ApiController {
 	public String deleteUser(@PathVariable Long id, @RequestHeader(
 			value = "Authorization",
 			required = true) String token) {
+		logger.info("received token at deleteUser is: " + token);
 		User u = service.getUserById(token, id);
 		if (u != null) {
 			service.delete(token, u);
 		}
-		return "redirect:/users/";
+		return "redirect:/api/users/";
 	}
 
 	@RequestMapping(value = "/users/john", method = RequestMethod.GET)
