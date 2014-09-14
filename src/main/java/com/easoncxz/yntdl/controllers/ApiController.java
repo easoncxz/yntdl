@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.easoncxz.yntdl.domain.Task;
-import com.easoncxz.yntdl.domain.TaskList;
 import com.easoncxz.yntdl.domain.User;
 import com.easoncxz.yntdl.domain.Users;
 import com.easoncxz.yntdl.service.Service;

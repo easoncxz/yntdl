@@ -16,23 +16,24 @@ public class ServiceImpl implements Service {
 
 	@Override
 	public void delete(String token, User user) {
-		if (user != null) {
-			unmarshalledUserFixer(user);
-			try {
-				dao.delete(user);
-			} catch (RuntimeException e) {
-				Long id = user.getId();
-				if (id == null) {
-					throw e;
-				}
-				// check to see if requested-to-be-deleted user actually was
-				// persisted in the first place:
-				User u = dao.getUserById(id);
-				if (u != null) {
-					throw e;
-				}
-			}
-		}
+		// if (user != null) {
+		// unmarshalledUserFixer(user);
+		// try {
+		// dao.delete(user);
+		// } catch (RuntimeException e) {
+		// Long id = user.getId();
+		// if (id == null) {
+		// throw e;
+		// }
+		// // check to see if requested-to-be-deleted user actually was
+		// // persisted in the first place:
+		// User u = dao.getUserById(id);
+		// if (u != null) {
+		// throw e;
+		// }
+		// }
+		// }
+		dao.delete(user);
 	}
 
 	@Override
@@ -47,14 +48,14 @@ public class ServiceImpl implements Service {
 
 	@Override
 	public User save(String token, User user) {
-		unmarshalledUserFixer(user);
+		// unmarshalledUserFixer(user);
 		dao.save(user);
 		return user;
 	}
 
 	@Override
 	public User update(String token, User user) {
-		unmarshalledUserFixer(user);
+		// unmarshalledUserFixer(user);
 		dao.update(user);
 		return user;
 	}
