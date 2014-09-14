@@ -10,14 +10,29 @@ import com.easoncxz.yntdl.persistence.Dao;
 
 @org.springframework.stereotype.Service("serverService")
 public class ServiceImpl implements Service {
-	
+
 	@Autowired
 	private Dao dao;
 
 	@Override
 	public void delete(String token, User user) {
-		unmarshalledUserFixer(user);
-		dao.delete(user);
+		if (user != null) {
+			unmarshalledUserFixer(user);
+			try {
+				dao.delete(user);
+			} catch (RuntimeException e) {
+				Long id = user.getId();
+				if (id == null) {
+					throw e;
+				}
+				// check to see if requested-to-be-deleted user actually was
+				// persisted in the first place:
+				User u = dao.getUserById(id);
+				if (u != null) {
+					throw e;
+				}
+			}
+		}
 	}
 
 	@Override

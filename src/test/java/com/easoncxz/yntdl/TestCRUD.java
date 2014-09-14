@@ -1,6 +1,5 @@
 package com.easoncxz.yntdl;
 
-import static com.easoncxz.yntdl.util.MyUtils.dumpUser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

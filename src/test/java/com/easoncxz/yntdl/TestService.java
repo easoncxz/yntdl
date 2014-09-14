@@ -29,6 +29,8 @@ public class TestService {
 
 	private Service service;
 	
+	private final String token = "TestServiceUser:pw";
+	
 	@Before
 	public void setUp() throws Exception {
 		context = new ClassPathXmlApplicationContext("test-context.xml");
@@ -37,15 +39,15 @@ public class TestService {
 		service = context.getBean("serverService", Service.class);
 		assertNotNull(service);
 
-		beforeTests = service.getAllUsers();
+		beforeTests = service.getAllUsers(token);
 		logger.info(beforeTests.toString());
 
 		for (User u : beforeTests) {
 			assertNotNull(u);
 			assertNotNull(u.getId());
-			service.delete(u);
+			service.delete(token, u);
 		}
-		assertEquals(0, service.getAllUsers().size());
+		assertEquals(0, service.getAllUsers(token).size());
 	}
 
 	@Test
@@ -58,7 +60,7 @@ public class TestService {
 		assertNull(u.getId());
 		assertNull(l.getId());
 		assertNull(t.getId());
-		service.save(u);
+		service.save(token, u);
 		assertNotNull(u.getId());
 		assertNotNull(l.getId());
 		assertNotNull(t.getId());
@@ -66,16 +68,16 @@ public class TestService {
 
 	@After
 	public void tearDown() throws Exception {
-		for (User u : service.getAllUsers()) {
+		for (User u : service.getAllUsers(token)) {
 			assertNotNull(u);
-			service.delete(u);
+			service.delete(token, u);
 		}
 		for (User u : beforeTests) {
 			assertNotNull(u);
 			assertNotNull(u.getId());
-			assertNull(service.getUserById(u.getId()));
-			service.save(u);
+			assertNull(service.getUserById(token, u.getId()));
+			service.save(token, u);
 		}
-		assertEquals(beforeTests.size(), service.getAllUsers().size());
+		assertEquals(beforeTests.size(), service.getAllUsers(token).size());
 	}
 }

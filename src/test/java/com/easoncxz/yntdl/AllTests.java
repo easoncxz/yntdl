@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ TestCRUD.class, TestHibernateDao.class, TestReflection.class,
-		TestRest.class, TestService.class })
+		TestService.class })
 public class AllTests {
 
 }
